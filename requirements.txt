@@ -1,0 +1,5 @@
+singlestoredb
+arxiv
+pymupdf
+python-dotenv
+requests

@@ -1,0 +1,48 @@
+PASTING TERMINAL OUTPUTS AS IT IS = 
+
+(venv) PS D:\research-agent> python rag.py "What methods reduce LLM hallucination?"
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+
+======================================================================
+QUESTION: What methods reduce LLM hallucination?
+======================================================================
+To reduce LLM hallucinations, researchers employ mitigation and prevention strategies applied at the data, training, and inference stages of the LLM lifecycle [1][2]. Specific techniques include Retrieval-Augmented Generation (RAG) to ground outputs using external documents, and Reinforcement Learning from Human Feedback (RLHF) to penalize factually incorrect claims [3]. Other approaches involve knowledge-based methods like knowledge graphs, training or reference guiding via control codes or contrastive learning, and evaluating or correcting generated content (such as rectifying self-contradictory statements) [4][5]. Finally, methods such as fine-tuning, memory augmentation, context prompts, clarifying question frameworks, grammar-guided decoding, and specialized grounding models like RHO also help mitigate hallucinations [4][5][6].
+
+--- SOURCES CITED ---
+[1] Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention (2026) | arXiv:2608.26168v1 | Methods
+[2] Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention (2026) | arXiv:2608.26168v1 | Methods
+[3] HalluScan: A Systematic Benchmark for Detecting and Mitigating Hallucinations in Instruction-Following LLMs (2026) | arXiv:2605.02443v2 | Introduction
+[4] Hallucination Detection and Hallucination Mitigation: An Investigation (2024) | arXiv:2401.08358v1 | Methods
+[5] Insights into Classifying and Mitigating LLMs' Hallucinations (2023) | arXiv:2311.08117v1 | Introduction
+[6] Hallucination by Code Generation LLMs: Taxonomy, Benchmarks, Mitigation, and Challenges (2025) | arXiv:2504.20799v2 | Introduction
+
+(venv) PS D:\research-agent> python rag.py "What is the impact of noisy data on language model performance?"
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+
+======================================================================
+QUESTION: What is the impact of noisy data on language model performance?
+======================================================================
+NOT FOUND IN SOURCES: The provided sources do not contain information about the impact of noisy data on language model performance. They only briefly mention that knowledge injection reduces a model's dependence on "noisy parametric memory" [6], but they do not discuss the effects of noisy datasets.
+
+--- SOURCES CITED ---
+[6] Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention (2026) | arXiv:2608.26168v1 | Limitations
+
+(venv) PS D:\research-agent> python rag.py "What are the limitations of retrieval-augmented generation?"
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+
+======================================================================
+QUESTION: What are the limitations of retrieval-augmented generation?
+======================================================================
+Based on the provided sources, the limitations of retrieval-augmented generation (RAG) include:
+
+* **Multi-turn dialogue constraints:** RAG methods have limitations when applied directly to multi-turn dialogue contexts, despite being effective in open-domain question answering [1].
+* **Error accumulation:** RAG approaches occasionally face the challenge of error accumulation, where irrelevant evidence can seep into the generation process [4]. 
+* **External hallucination:** This leakage of irrelevant retrieved information can lead to incorrect responses, a phenomenon known as external hallucination [4].
+
+--- SOURCES CITED ---
+[1] Hallucination Detection and Hallucination Mitigation: An Investigation (2024) | arXiv:2401.08358v1 | Methods
+[4] Rowen: Adaptive Retrieval-Augmented Generation for Hallucination Mitigation in LLMs (2024) | arXiv:2402.10612v3 | Introduction
+
+WARNING: sentences with no citation:
+  - Based on the provided sources, the limitations of retrieval-augmented generation (RAG) include:
+(venv) PS D:\research-agent> 

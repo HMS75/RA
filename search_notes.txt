@@ -1,0 +1,289 @@
+Search evaluation notes:
+
+1. Query: methods for reducing LLM hallucinations
+	Vector: Relevant results focused on hallucination mitigation, including RAG-based and other mitigation approaches.
+	Keyword: Highly relevant; results directly discuss hallucination mitigation methods.
+	Hybrid: Relevant results combining papers on hallucination mitigation and detection.
+Result: Good; all three modes return relevant results, although some papers/chunks overlap.
+
+2. Query: limitations of retrieval-augmented generation
+	Vector: Relevant to RAG and hallucination mitigation, but not always specifically focused on RAG limitations.
+	Keyword: Relevant results, but some focus more broadly on hallucination rather than RAG limitations.
+	Hybrid: Relevant overall, but repeated documents/sections appear.
+Result: Mostly relevant; needs better specificity and deduplication.
+
+3. Query: challenges in evaluating large language models
+	Vector: Several results focus on hallucination rather than general LLM evaluation. The first result, YouZhi, is only indirectly related.
+	Keyword: Some relevant benchmark/evaluation papers, but results are still heavily focused on hallucination.
+	Hybrid: Similar to vector search and does not fully correct the relevance issue.
+Result: Weak; retrieval focuses too much on hallucination.
+
+4. Query: methods for detecting hallucinations in LLMs
+	Vector: Strong results directly related to hallucination detection.
+	Keyword: Very relevant; most results directly discuss detection methods and benchmarks.
+	Hybrid: Also highly relevant, although some documents overlap with other modes.
+Result: Good; all three modes perform well.
+
+4. Query: impact of noisy data on language model performance
+	Vector: Poor match. Results mainly discuss hallucinations rather than noisy data.
+	Keyword: Some discussion of training data, but still mostly focused on hallucination.
+	Hybrid: Similar problem; hallucination papers dominate the results.
+Result: Poor; the system misses the key concept of noisy data.
+
+Overall:
+    Search works well for queries directly related to LLM hallucinations.
+    Broader or more specific queries can produce irrelevant results.
+    Duplicate papers/chunks appear in the results.
+    Hybrid search does not always improve relevance.
+    Possible improvements: reranking, deduplication, better hybrid weighting, and query expansion.
+
+Exact terminal outputs on which notes were based on: 
+
+(venv) PS D:\research-agent> python search.py "methods for reducing LLM hallucination" --mode vector
+>> python search.py "methods for reducing LLM hallucination" --mode keyword
+>> python search.py "methods for reducing LLM hallucination" --mode hybrid
+
+VECTOR 
+    #1  [Introduction]  Hallucination by Code Generation LLMs: Taxonomy, Benchmarks, Mitigation, and Challenges (2025)  score=0.8632
+        a modest reduction in hallucinations across six LLMs. This study serves as a pilot exploration of RAG-based mitigation methods, shedding light on their possible applications in reducing hallucinations in LLMs. Hallucination by Code Generation LLMs: Taxonomy, Benchmarks, Mitigation, and Challenges 13 ...
+
+    #2  [Introduction]  Insights into Classifying and Mitigating LLMs' Hallucinations (2023)  score=0.8551
+        Grey Box Black Box Uncertainty Assessment Factuality Assessment Zero Resource Settings Token-level Probability Proxy LLMs Figure 2: Several LLM Hallucination Detection methods are grouped into Grey and Black Box as depicted above. 4. Mitigating LLM Hallucinations Mitigating hallucinations in LLMs is ...
+
+    #3  [Introduction]  HalluLens: LLM Hallucination Benchmark (2025)  score=0.8540
+        including extrinsic hallucination, intrinsic hallucination and factuality issues. Note that LLM factuality is not a type of hallucination, yet it is closely tied with hallucination problem in LLM. ∗As of December 2024. hallucination benchmark when it measures factuality. A nuanced understanding is i ...
+
+    #4  [Introduction]  Hallucination Detection and Hallucination Mitigation: An Investigation (2024)  score=0.8448
+        LLMs to be applied to real-world problems. Here we provide a review of current approaches to detect and mitigate hallucinations. This report is organized as follows. In Section 2, we present a brief introduction to some common natural language generation (NLG) metrics as well as classification metri ...
+
+    #5  [Abstract]  Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention (2026)  score=0.8363
+        The lifecycle of hallucination in LLMs is a concept that enables building solid frameworks on the control and reliability of LLMs in high-stakes environments, including health, legal, and scientific research. Although previous surveys have primarily focused on detection or mitigation, this sur- vey  ...
+KEYWORD
+    #1  [Methods]  A Systematic Literature Review of Code Hallucinations in LLMs: Characterization, Mitigation Methods, Challenges, and Future Directions for Reliable AI (2025)  score=3.5112
+        to detect mis-configurations while addressing LLM hallucination and nondeterminism. 6.3.2 Model tuning for hallucination mitigating. At the model level, we categorize existing methods into finetuning, attention intervention, and decoding constraints. Decoding Constraints. Current studies ignore the  ...
+
+    #2  [Abstract]  Can LLM be a Good Path Planner based on Prompt Engineering? Mitigating the Hallucination for Path Planning (2024)  score=3.5015
+        hallucination. LLMs can rapidly accumulate successful experiences by reducing task difficulty and leveraging them to tackle more complex tasks. We performed comprehensive experiments based on Baidu’s self-developed LLM: ERNIE-Bot 4.0. The results showed that our S2RCQL achieved a 23%–40% improvement ...
+
+    #3  [Methods]  Hallucination Detection and Hallucination Mitigation: An Investigation (2024)  score=3.2579
+        tasks while sample contrast, on the contrary, is detrimental to the performance of the detection. 4 HALLUCINATION MITIGATION Hallucination mitigation is the task to reduce the potential hallucinations in the generated responses by LLMs. The papers reviewed in this section includes three categories:  ...
+
+    #4  [Limitations]  Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention (2026)  score=3.1401
+        high-quality dataset cura- tion, diversity-aware data collection, and knowl- edge grounding focus on eliminating factual gaps and biases before model training begins. Training- level strategies including fine-tuning, adversarial 21 training, neurosymbolic integration, and knowl- edge injection aim t ...
+
+    #5  [Introduction]  Hallucination by Code Generation LLMs: Taxonomy, Benchmarks, Mitigation, and Challenges (2025)  score=3.0423
+        in LLM-generated code: (1) incorrect or insufficient understanding of task requirements, (2) lack of factual knowledge relevant to the generation tasks, and (3) inability to access the necessary code and non-code resources from the repository. To mitigate these issues, the authors proposed a RAG-bas ...
+HYBRID
+    #1  [Introduction]  Hallucination by Code Generation LLMs: Taxonomy, Benchmarks, Mitigation, and Challenges (2025)  score=0.0164
+        a modest reduction in hallucinations across six LLMs. This study serves as a pilot exploration of RAG-based mitigation methods, shedding light on their possible applications in reducing hallucinations in LLMs. Hallucination by Code Generation LLMs: Taxonomy, Benchmarks, Mitigation, and Challenges 13 ...
+
+    #2  [Methods]  A Systematic Literature Review of Code Hallucinations in LLMs: Characterization, Mitigation Methods, Challenges, and Future Directions for Reliable AI (2025)  score=0.0164
+        to detect mis-configurations while addressing LLM hallucination and nondeterminism. 6.3.2 Model tuning for hallucination mitigating. At the model level, we categorize existing methods into finetuning, attention intervention, and decoding constraints. Decoding Constraints. Current studies ignore the  ...
+
+    #3  [Introduction]  Insights into Classifying and Mitigating LLMs' Hallucinations (2023)  score=0.0161
+        Grey Box Black Box Uncertainty Assessment Factuality Assessment Zero Resource Settings Token-level Probability Proxy LLMs Figure 2: Several LLM Hallucination Detection methods are grouped into Grey and Black Box as depicted above. 4. Mitigating LLM Hallucinations Mitigating hallucinations in LLMs is ...
+
+    #4  [Abstract]  Can LLM be a Good Path Planner based on Prompt Engineering? Mitigating the Hallucination for Path Planning (2024)  score=0.0161
+        hallucination. LLMs can rapidly accumulate successful experiences by reducing task difficulty and leveraging them to tackle more complex tasks. We performed comprehensive experiments based on Baidu’s self-developed LLM: ERNIE-Bot 4.0. The results showed that our S2RCQL achieved a 23%–40% improvement ...
+
+    #5  [Introduction]  HalluLenses. Note that LLM factuality is not a type of hallucination, yet it is closely tied with ha
+
+(venv) PS D:\research-agent> python search.py "limitations of retrieval-augmented generation" --mode vector
+>> python search.py "limitations of retrieval-augmented generation" --mode keyword
+>> python search.py "limitations of retrieval-augmented generation" --mode hybrid
+
+VECTOR
+    #1  [Methods]  Rowen: Adaptive Retrieval-Augmented Generation for Hallucination Mitigation in LLMs (2024)  score=0.8042
+        through an adaptive retrieval process. Our experiments on two datasets demonstrate the effectiveness of our approach. We also conduct detailed analytical experiments to underscore the impact of each module and the choices of hyper- parameters. Moving forward, we plan to expand our work by ex- plorin ...
+
+    #2  [Methods]  Hallucination Detection and Hallucination Mitigation: An Investigation (2024)  score=0.8039
+        < 0.001). NPH employs GPT2 embeddings for the KG-Entity Memory. (Figure and table source: [9]) 29 4.3 RETRIEVAL AUGMENTATION REDUCES HALLUCINATION IN CONVERSATION [45] Github Link: https://parl.ai/projects/hallucination/ Task: Knowledge-Grounded Dialogue Core Idea: The Retrieval-Augmented Generation ...
+
+    #3  [Methods]  Hallucination Detection and Hallucination Mitigation: An Investigation (2024)  score=0.8031
+        documents or passages retrieved from a set of documents using a learned matching function. The authors studied various types of architectures with multiple components of a broader category of RAG models: retrieval-augmented neural architectures. The components include retrievers, rankers, and encode ...
+
+    #4  [Introduction]  Theoretical Foundations and Mitigation of Hallucination in Large Language Models (2025)  score=0.7915
+        broad categories that have shown promise: A. Retrieval-Augmented Generation (RAG) One of the most effective ways to ground a language model in factual content is to provide it with relevant reference information at generation time [17]. Retrieval-Augmented Generation (RAG) frameworks augment the mod ...
+
+    #5  [Introduction]  Rowen: Adaptive Retrieval-Augmented Generation for Hallucination Mitigation in LLMs (2024)  score=0.7890
+        to ensure logical consistency either through self-reflection within a single model [6, 15, 23, 35, 39] or through col- laborative refinements or debates involving multiple models [5, 7]. Despite their strengths, LLMs are sometimes constrained by their knowledge boundaries and the complexity of the r ...
+KEYWORD
+    #1  [Methods]  Hallucination Detection and Hallucination Mitigation: An Investigation (2024)  score=6.0926
+        < 0.001). NPH employs GPT2 embeddings for the KG-Entity Memory. (Figure and table source: [9]) 29 4.3 RETRIEVAL AUGMENTATION REDUCES HALLUCINATION IN CONVERSATION [45] Github Link: https://parl.ai/projects/hallucination/ Task: Knowledge-Grounded Dialogue Core Idea: The Retrieval-Augmented Generation ...
+
+    #2  [Introduction]  Theoretical Foundations and Mitigation of Hallucination in Large Language Models (2025)  score=5.4593
+        introduces unseen entities or numbers is likely halluci- nating extrinsic details [5]. Similarly, in knowledge-grounded dialogue, if the conversation is supposed to stay grounded in provided knowledge snippets and the model response intro- duces a new factoid not in the snippets, a detection system  ...
+
+    #3  [Background]  LLM Hallucinations in Practical Code Generation: Phenomena, Mechanism, and Mitigation (2024)  score=5.1694
+        information, hindering LLMs’ ability to focus on the most relevant context for code generation. Therefore, it is crucial to develop methods that make LLMs aware of the project contexts (project-specific memory) that are precisely related to the current coding task. Recent works attempt to integrate  ...
+
+    #4  [Introduction]  Theoretical Foundations and Mitigation of Hallucination in Large Language Models (2025)  score=5.0506
+        broad categories that have shown promise: A. Retrieval-Augmented Generation (RAG) One of the most effective ways to ground a language model in factual content is to provide it with relevant reference information at generation time [17]. Retrieval-Augmented Generation (RAG) frameworks augment the mod ...
+
+    #5  [Discussion]  Counterfactual Probing for Hallucination Detection and Mitigation in Large Language Models (2025)  score=4.9358
+        underscoring the need for bias audits and fairness evaluations. 6.4. Limitations and Future Work While our approach shows promising results, several limita- tions warrant attention. The method’s effectiveness depends on the quality of generated counterfactuals, which may be challenging for highly sp ...
+HYBRID
+    #1  [Methods]  Hallucination Detection and Hallucination Mitigation: An Investigation (2024)  score=0.0325
+        < 0.001). NPH employs GPT2 embeddings for the KG-Entity Memory. (Figure and table source: [9]) 29 4.3 RETRIEVAL AUGMENTATION REDUCES HALLUCINATION IN CONVERSATION [45] Github Link: https://parl.ai/projects/hallucination/ Task: Knowledge-Grounded Dialogue Core Idea: The Retrieval-Augmented Generation ...
+
+    #2  [Introduction]  Theoretical Foundations and Mitigation of Hallucination in Large Language Models (2025)  score=0.0312
+        broad categories that have shown promise: A. Retrieval-Augmented Generation (RAG) One of the most effective ways to ground a language model in factual content is to provide it with relevant reference information at generation time [17]. Retrieval-Augmented Generation (RAG) frameworks augment the mod ...
+
+    #3  [Methods]  Rowen: Adaptive Retrieval-Augmented Generation for Hallucination Mitigation in LLMs (2024)  score=0.0164
+        through an adaptive retrieval process. Our experiments on two datasets demonstrate the effectiveness of our approach. We also conduct detailed analytical experiments to underscore the impact of each module and the choices of hyper- parameters. Moving forward, we plan to expand our work by ex- plorin ...
+
+    #4  [Introduction]  Theoretical Foundations and Mitigation of Hallucination in Large Language Models (2025)  score=0.0161
+        introduces unseen entities or numbers is likely halluci- nating extrinsic details [5]. Similarly, in knowledge-grounded dialogue, if the conversation is supposed to stay grounded in provided knowledge snippets and the model response intro- duces a new factoid not in the snippets, a detection system  ...
+
+    #5  [Methods]  Hallucination Detection and Hallucination Mitigation: An Investigation (2024)  score=0.0159
+        documents or passages retrieved from a set of documents using a learned matching function. The authors studied various types of architectures with multiple components of a broader category of RAG models: retrieval-augmented neural architectures. The components include retrievers, rankers, and encode ...
+
+(venv) PS D:\research-agent> python search.py "challenges in evaluating large language models" --mode vector
+>> python search.py "challenges in evaluating large language models" --mode keyword
+>> python search.py "challenges in evaluating large language models" --mode hybrid
+
+VECTOR 
+    #1  [Experiments]  YouZhi: Towards High-Concurrency Financial LLMs via Adaptive GQA-to-MLA Transition (2026)  score=0.8303
+        We conduct a comprehensive experimental evalua- tion on Ascend clusters, structured in three aspects: (1) Evaluation on Language Modeling. We bench- mark our approach against TransMLA by eval- uating perplexity on language modeling dataset WikiText-2 across multiple mainstream LLMs. (2) Evaluation o ...
+
+    #2  [Abstract]  Mathematical Analysis of Hallucination Dynamics in Large Language Models: Uncertainty Quantification, Advanced Decoding, and Principled Mitigation (2025)  score=0.8290
+        Large Language Models (LLMs) are powerful linguistic engines but remain susceptible to hallucinations: plausible-sounding outputs that are factually incorrect or unsupported. In this work, we present a mathematically grounded framework to understand, measure, and mitigate these hallucinations. Drawi ...
+
+    #3  [Abstract]  A Stitch in Time Saves Nine: Detecting and Mitigating Hallucinations of LLMs by Validating Low-Confidence Generation (2023)  score=0.8287
+        Recently developed large language models have achieved remarkable success in generating fluent and coherent text. However, these models often tend to 'hallucinate' which critically hampers their reliability. In this work, we address this crucial problem and propose an approach that actively detects  ...
+
+    #4  [Abstract]  Mathematical Analysis of Hallucination Dynamics in Large Language Models: Uncertainty Quantification, Advanced Decoding, and Principled Mitigation (2025)  score=0.8281
+        Large Language Models (LLMs) are powerful linguistic engines but remain sus- ceptible to hallucinations—plausible-sounding outputs that are factually incorrect or unsupported. In this work, we present a coherent, mathematically grounded framework to understand, measure, and mitigate these hallucinat ...
+
+    #5  [Introduction]  Rowen: Adaptive Retrieval-Augmented Generation for Hallucination Mitigation in LLMs (2024)  score=0.8280
+        In recent years, large language models (LLMs) have demonstrated impressive abilities in natural language understanding [9, 11], gen- eration [31, 33], and reasoning [4, 36, 47]. Despite their successes, it has been widely observed that even state-of-the-art LLMs often generate factually incorrect or ...
+KEYWORD
+    #1  [Introduction]  HalluLens: LLM Hallucination Benchmark (2025)  score=5.0346
+        Large language models (LLMs) are known to generate responses that could be inconsistent with the user input, their own previous outputs, or existing knowledge – a phenomenon commonly referred to as “hallucination”. Such hallucinations pose significant challenges to user trust and acceptance of gener ...
+
+    #2  [Methods]  Hallucination Detection and Hallucination Mitigation: An Investigation (2024)  score=4.9296
+        CNN/DailyMail based benchmarks. In addition, Harim+ has the most correlation w.r.t. human judgements except several settings, i.e. XSUM and SummEval-Relevance. Another remark to make is that the proposed Harim+ prefers self-generated summary (i.e. summary generated by the same summarization model th ...
+
+    #3  [Introduction]  Towards Mitigating API Hallucination in Code Generated by LLMs with Hierarchical Dependency Aware (2025)  score=4.7864
+        In modern software development, developers frequently leverage application programming interfaces (APIs) to integrate complex functionalities into their projects efficiently [3, 4, 26, 36, 40]. The advent of large language models (LLMs) has revolutionized this process, with AI-powered coding assista ...
+
+    #4  [Methods]  A Systematic Literature Review of Code Hallucinations in LLMs: Characterization, Mitigation Methods, Challenges, and Future Directions for Reliable AI (2025)  score=4.4959
+        al. [67] Survey and classification CodeLLMs hallucination types 2025 Huang et al. [47] Uncertainty estimation NLP and code risk assessment For other tasks. There are also other empirical studies, such as those focusing on zero-shot learning, long-context understanding, and tool usage. Bang et al. [6 ...
+
+    #5  [Abstract]  Redefining "Hallucination" in LLMs: Towards a psychology-informed framework for mitigating misinformation (2024)  score=4.4916
+        In recent years, large language models (LLMs) have become incredibly popular, with ChatGPT for example being used by over a billion users. While these models exhibit remarkable language understanding and logical prowess, a notable challenge surfaces in the form of "hallucinations." This phenomenon r ...
+HYBRID
+    #1  [Experiments]  YouZhi: Towards High-Concurrency Financial LLMs via Adaptive GQA-to-MLA Transition (2026)  score=0.0164
+        We conduct a comprehensive experimental evalua- tion on Ascend clusters, structured in three aspects: (1) Evaluation on Language Modeling. We bench- mark our approach against TransMLA by eval- uating perplexity on language modeling dataset WikiText-2 across multiple mainstream LLMs. (2) Evaluation o ...
+
+    #2  [Introduction]  HalluLens: LLM Hallucination Benchmark (2025)  score=0.0164
+        Large language models (LLMs) are known to generate responses that could be inconsistent with the user input, their own previous outputs, or existing knowledge – a phenomenon commonly referred to as “hallucination”. Such hallucinations pose significant challenges to user trust and acceptance of gener ...
+
+    #3  [Abstract]  Mathematical Analysis of Hallucination Dynamics in Large Language Models: Uncertainty Quantification, Advanced Decoding, and Principled Mitigation (2025)  score=0.0161
+        Large Language Models (LLMs) are powerful linguistic engines but remain susceptible to hallucinations: plausible-sounding outputs that are factually incorrect or unsupported. In this work, we present a mathematically grounded framework to understand, measure, and mitigate these hallucinations. Drawi ...
+
+    #4  [Methods]  Hallucination Detection and Hallucination Mitigation: An Investigation (2024)  score=0.0161
+        CNN/DailyMail based benchmarks. In addition, Harim+ has the most correlation w.r.t. human judgements except several settings, i.e. XSUM and SummEval-Relevance. Another remark to make is that the proposed Harim+ prefers self-generated summary (i.e. summary generated by the same summarization model th ...
+
+    #5  [Abstract]  A Stitch in Time Saves Nine: Detecting and Mitigating Hallucinations of LLMs by Validating Low-Confidence Generation (2023)  score=0.0159
+        Recently developed large language models have achieved remarkable success in generating fluent and coherent text. However, these models often tend to 'hallucinate' which critically hampers their reliability. In this work, we address this crucial problem and propose an approach that actively detects  ...
+
+(venv) PS D:\research-agent> python search.py "methods for detecting hallucinations in LLMs" --mode vector
+>> python search.py "methods for detecting hallucinations in LLMs" --mode keyword
+>> python search.py "methods for detecting hallucinations in LLMs" --mode hybrid
+
+VECTOR
+    #1  [Introduction]  Hallucination Detection and Hallucination Mitigation: An Investigation (2024)  score=0.8890
+        LLMs to be applied to real-world problems. Here we provide a review of current approaches to detect and mitigate hallucinations. This report is organized as follows. In Section 2, we present a brief introduction to some common natural language generation (NLG) metrics as well as classification metri ...
+
+    #2  [Related Work]  Towards Mitigation of Hallucination for LLM-empowered Agents: Progressive Generalization Bound Exploration and Watchdog Monitor (2025)  score=0.8711
+        the an- swers of the large language model deviate from the facts. Gaurang et al. [24] proposes a hallucination detection method that analyze inter- nal model signals. Xiaoling et al. [37] propose HADEMIF for detect- ing hallucinations in LLMs by leveraging a Deep Dynamic Decision Tree and an MLP to  ...
+
+    #3  [Introduction]  Hallucination Detection and Hallucination Mitigation: An Investigation (2024)  score=0.8707
+        Large language models (LLMs) are trained machine learning models that generate symbols (typically text) based on a sequence of previous symbols provided. This previous set of symbols is known as the prompt. The output symbol can then be appended to the prompt and the LLM used to generate the next ou ...
+
+    #4  [Methods]  A Systematic Literature Review of Code Hallucinations in LLMs: Characterization, Mitigation Methods, Challenges, and Future Directions for Reliable AI (2025)  score=0.8681
+        Review of Code Hallucinations in LLMs: Characterization, Mitigation Methods, Challenges, and Future Directions for Reliable AI 1:15 hallucination and privacy. Esposito et al. [28] and Hindi et al. [40] investigate the effectiveness of RAG-enhanced LLMs in risk analysis and legal applications, respec ...
+
+    #5  [Related Work]  HalluDetect: Detecting, Mitigating, and Benchmarking Hallucinations in Conversational Systems in the Legal Domain (2025)  score=0.8617
+        Hallucination detection in LLMs has been ap- proached through external retrieval (Chen et al., 2024), self-correction (Gou et al., 2024), and fine-grained metrics like FactScore (Min et al., 2023). Retrieval-augmented generation (RAG) methods (Huo et al., 2023) and tool-based frame- works like FacTo ...
+KEYWORD
+    #1  [Introduction]  HalluScan: A Systematic Benchmark for Detecting and Mitigating Hallucinations in Instruction-Following LLMs (2026)  score=4.2549
+        information insertion. Natural Language Inference (NLI) models have proven particularly effective for detecting this category of hallucination, as they can assess whether generated claims are entailed by the source text [20, 21]. Instruction Hallucination represents a more recently recognized catego ...
+
+    #2  [Abstract]  Fact-Controlled Diagnosis of Hallucinations in Medical Text Summarization (2025)  score=3.9192
+        Hallucinations in large language models (LLMs) during summarization of patient-clinician dialogues pose significant risks to patient care and clinical decision-making. However, the phenomenon remains understudied in the clinical domain, with uncertainty surrounding the applicability of general-domai ...
+
+    #3  [Related Work]  Efficient Hallucination Detection: Adaptive Bayesian Estimation of Semantic Entropy with Guided Semantic Exploration (2026)  score=3.8360
+        2.1 Hallucination Hallucination in large language models refers to the gen- eration of content that appears coherent but lacks factual support or deviates from the intended output (Wang et al. 2023a). Current research categorizes LLM hallucinations into two main types: factuality hallucination and f ...
+
+    #4  [Introduction]  OpenHalDet: A Unified Benchmark for Hallucination Detection across Diverse Generation Scenarios (2026)  score=3.8153
+        Large language models (LLMs) have demonstrated strong potential across a wide range of real- world applications [1, 2]. Despite these advances, hallucination in generated text remains a critical challenge, where LLMs produce outputs that are grammatically and logically coherent but lack factual accu ...
+
+    #5  [Abstract]  Fact-Controlled Diagnosis of Hallucinations in Medical Text Summarization (2025)  score=3.8040
+        Hallucinations in large language models (LLMs) during summarization of patient-clinician dialogues pose significant risks to patient care and clinical decision-making. However, the phenomenon remains understudied in the clinical domain, with uncertainty surrounding the applicability of general-domai ...
+HYBRID
+    #1  [Introduction]  Hallucination Detection and Hallucination Mitigation: An Investigation (2024)  score=0.0164
+        LLMs to be applied to real-world problems. Here we provide a review of current approaches to detect and mitigate hallucinations. This report is organized as follows. In Section 2, we present a brief introduction to some common natural language generation (NLG) metrics as well as classification metri ...
+
+    #2  [Introduction]  HalluScan: A Systematic Benchmark for Detecting and Mitigating Hallucinations in Instruction-Following LLMs (2026)  score=0.0164
+        information insertion. Natural Language Inference (NLI) models have proven particularly effective for detecting this category of hallucination, as they can assess whether generated claims are entailed by the source text [20, 21]. Instruction Hallucination represents a more recently recognized catego ...
+
+    #3  [Related Work]  Towards Mitigation of Hallucination for LLM-empowered Agents: Progressive Generalization Bound Exploration and Watchdog Monitor (2025)  score=0.0161
+        the an- swers of the large language model deviate from the facts. Gaurang et al. [24] proposes a hallucination detection method that analyze inter- nal model signals. Xiaoling et al. [37] propose HADEMIF for detect- ing hallucinations in LLMs by leveraging a Deep Dynamic Decision Tree and an MLP to  ...
+
+    #4  [Abstract]  Fact-Controlled Diagnosis of Hallucinations in Medical Text Summarization (2025)  score=0.0161
+        Hallucinations in large language models (LLMs) during summarization of patient-clinician dialogues pose significant risks to patient care and clinical decision-making. However, the phenomenon remains understudied in the clinical domain, with uncertainty surrounding the applicability of general-domai ...
+
+    #5  [Introduction]  Hallucination Detection and Hallucination Mitigation: An Investigation (2024)  score=0.0159
+        Large language models (LLMs) are trained machine learning models that generate symbols (typically text) based on a sequence of previous symbols provided. This previous set of symbols is known as the prompt. The output symbol can then be appended to the prompt and the LLM used to generate the next ou ...
+
+(venv) PS D:\research-agent> python search.py "impact of noisy data on language model performance" --mode vector
+>> python search.py "impact of noisy data on language model performance" --mode keyword
+>> python search.py "impact of noisy data on language model performance" --mode hybrid
+
+VECTOR
+    #1  [Abstract]  Mathematical Analysis of Hallucination Dynamics in Large Language Models: Uncertainty Quantification, Advanced Decoding, and Principled Mitigation (2025)  score=0.8383
+        Large Language Models (LLMs) are powerful linguistic engines but remain susceptible to hallucinations: plausible-sounding outputs that are factually incorrect or unsupported. In this work, we present a mathematically grounded framework to understand, measure, and mitigate these hallucinations. Drawi ...
+
+    #2  [Abstract]  Mathematical Analysis of Hallucination Dynamics in Large Language Models: Uncertainty Quantification, Advanced Decoding, and Principled Mitigation (2025)  score=0.8356
+        Large Language Models (LLMs) are powerful linguistic engines but remain sus- ceptible to hallucinations—plausible-sounding outputs that are factually incorrect or unsupported. In this work, we present a coherent, mathematically grounded framework to understand, measure, and mitigate these hallucinat ...
+
+    #3  [Introduction]  Mathematical Analysis of Hallucination Dynamics in Large Language Models: Uncertainty Quantification, Advanced Decoding, and Principled Mitigation (2025)  score=0.8205
+        Large Language Models (LLMs) have rapidly become critical tools in multiple domains—conversational agents, scientific assistants, tutoring systems, and more. Their fluency can be staggering, but they rely fundamentally on statistical prediction: anticipating the next token based on context rather th ...
+
+    #4  [Limitations]  Zero-knowledge LLM hallucination detection and mitigation through fine-grained cross-model consistency (2025)  score=0.8159
+        While FINCH-ZK represents a meaningful step to- ward improving the reliability of large language model outputs, it is not without important limi- tations. The underlying approach fundamentally relies on the assumption that a truly reliable an- swer will emerge as the most frequent or stable across r ...
+
+    #5  [Abstract]  Theoretical Foundations and Mitigation of Hallucination in Large Language Models (2025)  score=0.8086
+        Hallucination in Large Language Models (LLMs) refers to the generation of content that is not faithful to the input or the real-world facts. This paper provides a rigorous treatment of hallucination in LLMs, including formal definitions and theoretical analyses. We distinguish between intrinsic and  ...
+KEYWORD
+    #1  [Discussion]  When LLMs Invent Rust Crates: An Empirical Study of Hallucination Patterns and Mitigation (2026)  score=5.5031
+        7.1 Implications Training Data Richness Drives Model Performance. Cassano et al. [6] categorize programming languages in LLM-based code generation into high-resource and low-resource, based on how much training data is available for each language. Public statistics sup- port this distinction: Rust i ...
+
+    #2  [Methods]  Rowen: Adaptive Retrieval-Augmented Generation for Hallucination Mitigation in LLMs (2024)  score=4.4432
+        Rowen-CM have different optimal thresholds of 0.6 and 0.8, respectively, and the Rowen-Hybrid method demonstrates the most stable perfor- mance across varying thresholds. Number of Perturbed Questions. We also study the effect of the number of perturbed question on hallucination mitigation and the r ...
+
+    #3  [Limitations]  Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention (2026)  score=4.2726
+        interpretable forms of expression [24]. Knowledge can be injected by SleepFM and MSSC-BiMamba in a multimodal fashion, that is, physical data (e.g., brain activity, ECG, res- piratory signals) are structured and combined with neural representations that restrict the model to provide outputs that are ...
+
+    #4  [Introduction]  Mitigating Hallucinated Translations in Large Language Models with Hallucination-focused Preference Optimization (2025)  score=4.2201
+        focus on a subset of five language pairs: en→{cs, de, is, ru, zh}. 4.3 Hallucination Focused Preference Dataset Construction We follow the data creation framework outlined in Section 2 to construct a hallucination focused preference fine-tuning dataset, as detailed below: 4.3.1 Monolingual Data As o ...
+
+    #5  [Methods]  A Systematic Literature Review of Code Hallucinations in LLMs: Characterization, Mitigation Methods, Challenges, and Future Directions for Reliable AI (2025)  score=4.0572
+        contribution types. A majority (58%) propose new methods, while empirical studies (27%) and benchmark creation (14%) form the rest. Only one survey paper (1%) exists, further highlighting the lack of comprehensive overviews, particularly in the code intelligence domain. ACM Trans. Softw. Eng. Method ...
+HYBRID
+    #1  [Abstract]  Mathematical Analysis of Hallucination Dynamics in Large Language Models: Uncertainty Quantification, Advanced Decoding, and Principled Mitigation (2025)  score=0.0164
+        Large Language Models (LLMs) are powerful linguistic engines but remain susceptible to hallucinations: plausible-sounding outputs that are factually incorrect or unsupported. In this work, we present a mathematically grounded framework to understand, measure, and mitigate these hallucinations. Drawi ...
+
+    #2  [Discussion]  When LLMs Invent Rust Crates: An Empirical Study of Hallucination Patterns and Mitigation (2026)  score=0.0164
+        7.1 Implications Training Data Richness Drives Model Performance. Cassano et al. [6] categorize programming languages in LLM-based code generation into high-resource and low-resource, based on how much training data is available for each language. Public statistics sup- port this distinction: Rust i ...
+
+    #3  [Abstract]  Mathematical Analysis of Hallucination Dynamics in Large Language Models: Uncertainty Quantification, Advanced Decoding, and Principled Mitigation (2025)  score=0.0161
+        Large Language Models (LLMs) are powerful linguistic engines but remain sus- ceptible to hallucinations—plausible-sounding outputs that are factually incorrect or unsupported. In this work, we present a coherent, mathematically grounded framework to understand, measure, and mitigate these hallucinat ...
+
+    #4  [Methods]  Rowen: Adaptive Retrieval-Augmented Generation for Hallucination Mitigation in LLMs (2024)  score=0.0161
+        Rowen-CM have different optimal thresholds of 0.6 and 0.8, respectively, and the Rowen-Hybrid method demonstrates the most stable perfor- mance across varying thresholds. Number of Perturbed Questions. We also study the effect of the number of perturbed question on hallucination mitigation and the r ...
+
+    #5  [Introduction]  Mathematical Analysis of Hallucination Dynamics in Large Language Models: Uncertainty Quantification, Advanced Decoding, and Principled Mitigation (2025)  score=0.0159
+        Large Language Models (LLMs) have rapidly become critical tools in multiple domains—conversational agents, scientific assistants, tutoring systems, and more. Their fluency can be staggering, but they rely fundamentally on statistical prediction: anticipating the next token based on context rather th ...

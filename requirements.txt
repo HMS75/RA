@@ -3,3 +3,5 @@ arxiv
 pymupdf
 python-dotenv
 requests
+fastembed
+numpy

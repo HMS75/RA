@@ -1,7 +1,4 @@
-"""Day 2: search the chunks three ways -> vector, keyword, or hybrid (both mixed).
-
-Run:  python search.py "methods for reducing LLM hallucination" --mode hybrid --k 5
-"""
+"""Day 2: search the chunks three ways -> vector, keyword, or hybrid (both mixed)."""
 import argparse
 import re
 from db import get_conn

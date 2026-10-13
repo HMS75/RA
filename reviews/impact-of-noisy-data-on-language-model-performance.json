@@ -1,0 +1,277 @@
+{
+  "topic": "impact of noisy data on language model performance",
+  "sub_questions": [
+    {
+      "question": "How does the presence of noise in training data affect the accuracy, calibration, and generalization of language models?",
+      "coverage": {
+        "score": 3,
+        "missing": "Explicit discussion of how training data noise affects model accuracy, calibration, and generalization is absent."
+      },
+      "papers_added": 0
+    },
+    {
+      "question": "What mitigation techniques such as data cleaning robust training regularization exist to counteract noisy data and how effective are they?",
+      "coverage": {
+        "score": 2,
+        "missing": "No explicit discussion of data cleaning, robust training, or regularization techniques for noisy data, nor quantitative evidence of their effectiveness."
+      },
+      "papers_added": 0
+    },
+    {
+      "question": "What evaluation protocols and benchmark datasets are used to quantify the impact of noisy data on language model performance?",
+      "coverage": {
+        "score": 3,
+        "missing": "The passages discuss evaluation protocols and benchmark datasets for hallucination detection and model robustness, but they do not explicitly cover protocols that quantify the impact of noisy data (e.g., controlled noise injection, noise-aware benchmarks, or metrics designed to measure performance degradation under noisy conditions)."
+      },
+      "papers_added": 0
+    }
+  ],
+  "review": "## Overview  \nLanguage models trained on corpora with conflicting or low\u2011quality content often generate outputs that do not align with any part of the training data, producing both extrinsic and intrinsic hallucinations. This phenomenon is a direct consequence of noisy or contradictory data in the training set.  \n- Contradictory or noisy training data can confuse semantic understanding and parametric knowledge learning, leading to hallucinations [10].  \n- Hallucinations are considered a form of generalization error, arising when a model\u2019s predictions deviate from the ground\u2011truth function due to imperfect data or training conditions [3].  \n\n## Main approaches  \n### Data\u2011level mitigation  \n- Retrieval\u2011augmented generation (RAG) incorporates external knowledge at generation time to ground outputs and reduce hallucinations caused by data noise [8].  \n- Post\u2011training data augmentation and cleaning of low\u2011quality or uncurated corpora are used to improve factual grounding [7][8].  \n\n### Training\u2011level mitigation  \n- Model editing and contrastive learning are applied during fine\u2011tuning to separate factual from spurious patterns learned from noisy data [8].  \n- Reinforcement learning with human or AI feedback (RLHF) is employed to shape model behaviour toward truthfulness, though it can also introduce trade\u2011offs with safety and factual accuracy [6][8].  \n\n### Inference\u2011time mitigation  \n- Self\u2011reflection and confidence\u2011calibration modules can flag uncertain generations, reducing the risk of confident hallucinations that arise from noisy data [8][2].  \n- External fact\u2011checking pipelines are used at generation time to verify the factuality of outputs before they are returned to the user [8].  \n\n### Regularization techniques  \n- Temperature scaling, a post\u2011hoc calibration method, has been shown to improve Expected Calibration Error (ECE) for models, providing a more reliable uncertainty signal that can mitigate hallucinations stemming from noisy training signals [2].  \n\n## How the papers compare  \n| Lifecycle stage | Typical methods | Reported impact on hallucination | Key source |\n|-----------------|-----------------|-----------------------------------|------------|\n| Data | RAG, data cleaning | Improves factual grounding, reduces extrinsic hallucinations | [8] |\n| Training | Model editing, contrastive learning, RLHF | Alters internal representations, can reduce both hallucination and safety failures | [8][6] |\n| Inference | Self\u2011reflection, confidence calibration, external fact\u2011checking | Provides real\u2011time safeguards, often used as last\u2011line defense | [8] |\n| Calibration | Temperature scaling | Lowers ECE, improves uncertainty estimates | [2] |\n\nThe papers emphasize data\u2011level fixes as the most direct response to noisy training material, whereas training\u2011 and inference\u2011time techniques act as complementary safeguards. Calibration methods are applied across stages to improve the reliability of model confidence.  \n\n## Limitations and open problems  \n- Many mitigation studies rely on auxiliary systems (retrieval, fact\u2011checking) that introduce additional infrastructure costs and potential new failure modes [8].  \n- The trade\u2011off between reducing hallucinations and maintaining factual accuracy or safety remains poorly quantified; some interventions that improve truthfulness may inadvertently increase refusal or safety errors [6].  \n- Calibration improvements measured by ECE do not guarantee factual correctness, as high confidence can still coincide with hallucinations [5][2].  \n- Existing benchmarks (HalluLens, HalluScan, OpenHalDet) evaluate hallucination rates but rarely isolate the effect of noisy versus clean training data, limiting causal conclusions about noise impact [14][13][15].  \n\n## Gaps in the evidence  \n- The influence of noisy training data on core performance metrics\u2014accuracy, calibration, and generalization\u2014has limited empirical support; most studies report qualitative or anecdotal findings rather than quantitative benchmarks [10].  \n- Effectiveness of specific data\u2011cleaning or robust regularization strategies against noise is not systematically compared across models or datasets [7][8].  \n- Benchmark protocols that dynamically generate test questions and evaluate refusal or abstention are relatively recent and have not yet been standardized for noisy\u2011data evaluation [14].  \n- Cross\u2011lingual generalizability of noise mitigation techniques remains unexplored, as current studies focus primarily on English datasets and models [13].  \n\nThese gaps highlight the need for controlled experiments that systematically vary training\u2011data noise levels and evaluate corresponding changes in accuracy, calibration, and generalization across diverse benchmark settings.",
+  "comparison": [
+    {
+      "arxiv_id": "2511.00776v1",
+      "title": "A Systematic Literature Review of Code Hallucinations in LLMs: Characterization, Mitigation Methods, Challenges, and Future Directions for Reliable AI",
+      "year": 2025,
+      "problem": "Hallucination in code generation by large language models hampers reliable software engineering tasks.",
+      "method": "Systematic literature review of 60 papers, following Kitchenham guidelines, categorizing causes, mitigation, and evaluation.",
+      "data_or_benchmarks": "Benchmarks include static metrics and dynamic checks such as compilation and execution correctness.",
+      "key_results": "Hallucinations arise from data noise, exposure bias, semantic gaps; mitigated by knowledge\u2011enhanced decoding, constrained generation, post\u2011editing; code challenges include syntax, typing, libraries.",
+      "limitations": "Few code\u2011hallucination studies; benchmarks lack unified, hallucination\u2011aware metrics; challenges in private codebases and balancing reliability with generalization."
+    },
+    {
+      "arxiv_id": "2507.22915v1",
+      "title": "Theoretical Foundations and Mitigation of Hallucination in Large Language Models",
+      "year": 2025,
+      "problem": "LLM hallucination: generating content not faithful to input or real-world facts.",
+      "method": "Formal definitions, risk bounds via PAC-Bayes and Rademacher, detection (uncertainty, calibration, attention) and mitigation (retrieval, fine-tuning, logit, verification).",
+      "data_or_benchmarks": "Recommended datasets, metrics, setups are proposed, but specific names are not provided.",
+      "key_results": "Derived theoretical risk bounds, surveyed detection/mitigation strategies, proposed unified workflow and evaluation guidelines.",
+      "limitations": "not stated"
+    },
+    {
+      "arxiv_id": "2504.17550v1",
+      "title": "HalluLens: LLM Hallucination Benchmark",
+      "year": 2025,
+      "problem": "LLMs hallucinate, producing content inconsistent with training data, undermining trust and adoption.",
+      "method": "Proposed HalluLens benchmark with a clear hallucination taxonomy, new extrinsic tasks, dynamic test generation, and analysis of existing benchmarks.",
+      "data_or_benchmarks": "HalluLens comprising three new extrinsic hallucination tasks and three existing intrinsic tasks, with dynamic test set generation.",
+      "key_results": "Benchmark evaluates extrinsic hallucinations, resists data leakage, and offers comprehensive analysis separating hallucination from factuality.",
+      "limitations": "not stated"
+    },
+    {
+      "arxiv_id": "2608.26168v1",
+      "title": "Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention",
+      "year": 2026,
+      "problem": "Hallucinations in LLMs across data, training, inference stages undermine reliability in high\u2011stakes domains.",
+      "method": "Lifecycle\u2011based survey: systematic literature review, PRISMA flow, coding, comparative analysis of hallucination causes, detection, mitigation, prevention.",
+      "data_or_benchmarks": "Benchmarks cited: NQ, TriviaQA, WebQuestions, CuratedTrec, FEVER; methods evaluated on EM, AUC, accuracy metrics.",
+      "key_results": "Lifecycle perspective shows hallucinations stem from data, training, inference; mitigation via data curation, model editing, self\u2011reflection; comparative effectiveness reported.",
+      "limitations": "Benchmarks focus on outputs, not full lifecycle; methods limited by retrieval bias, data quality, memory, human/AI bias, scalability constraints."
+    },
+    {
+      "arxiv_id": "2605.02443v2",
+      "title": "HalluScan: A Systematic Benchmark for Detecting and Mitigating Hallucinations in Instruction-Following LLMs",
+      "year": 2026,
+      "problem": "Hallucinations in LLMs: generating factually incorrect or unfaithful content.",
+      "method": "Systematic benchmark evaluating hallucination detection across 6 methods, 4 model families, 3 domains.",
+      "data_or_benchmarks": "600 responses from 4 open-weight LLMs across 3 domains, 72 configs.",
+      "key_results": "Self-Evaluation AUROC 0.688; ADR cuts cost 2\u00d7, AUROC drop 0.1%; HalluScore correlates r=0.41.",
+      "limitations": "HalluScore shows weak correlation with quality, requires score-direction correction, and needs domain-specific thresholds."
+    }
+  ],
+  "sources": [
+    {
+      "number": 2,
+      "chunk_id": 1125899906843740,
+      "score": 0.029030910609857977,
+      "title": "Weakly Supervised Distillation of Hallucination Signals into Transformer Representations",
+      "arxiv_id": "2604.06277v1",
+      "year": 2026,
+      "section": "Methods",
+      "text": "not fully supported by the context \u2014 for example, paraphrases that are plausible but go beyond what the passage entails. Critically, disagreement samples exhibit higher variance in hidden-state activations compared to agree- ment samples. This suggests that the model\u2019s own internal state reflects the ambiguity captured by the disagreement between signals: the model is, in a sense, less certain in its representations when producing borderline responses. This is consistent with the hypothesis that hidden states encode grounding confidence beyond surface text. 8.3 Calibration Behavior Calibration trends differ by protocol. In 5-fold aggregation, M4 has the lowest mean ECE, while in single- fold best-checkpoint analysis M3 achieves the lowest ECE among evaluated models. This suggests cal- ibration is not strictly monotonic with capacity and should be validated with post-hoc calibration (e.g., temperature scaling) before deployment. 8.4 Full-Dataset Diagnostic Analysis (Train/Dev Pool) To complement the split-based evaluation, we additionally analyze model predictions on the full training- data diagnostic run from eval 10 (10k samples). We emphasize that these are diagnostic statistics, not held-out generalization metrics, and are reported only to characterize classifier behavior and score geometry. 16 Model ID Acc Best F1 ROC-AUC PR-AUC ECE M0 0.8925 0.8262 0.9528 0.8880 0.1145 M1",
+      "url": "https://arxiv.org/abs/2604.06277v1"
+    },
+    {
+      "number": 3,
+      "chunk_id": 1125899906843563,
+      "score": 0.028612012987012988,
+      "title": "Theoretical Foundations and Mitigation of Hallucination in Large Language Models",
+      "arxiv_id": "2507.22915v1",
+      "year": 2025,
+      "section": "Introduction",
+      "text": "when outputs are hallucinations, one can in principle train a model or adjust the original model to minimize this risk. The challenge is that the space of all possible outputs is enormous, and directly supervising every case of hallucination is infeasible. Nonetheless, we can leverage generalization bounds from learning theory to reason about the hallucination behavior of models. A. Generalization Perspective From a learning perspective, a language model M can be seen as attempting to approximate the ground truth function f \u2217 (which produces fully factual outputs) based on finite training data. Hallucinations are then instances of generalization error: cases where M(x) deviates from f \u2217(x) in a way that intro- duces false or unsupported content. In fact, one might say that the ultimate goal of an ideal training procedure (for tasks requiring factuality) is to minimize Rhall(M). If we had a way to automatically determine whether a given output is hallucinatory (for example, via human labeling or a fact-checking oracle), we could measure an empirical hallucination rate on a sample of n inputs: \u02c6Rhall(M) = 1 n n X i=1 H(M, xi), where x1, . . . , xn are sample inputs (and we assume we can identify if",
+      "url": "https://arxiv.org/abs/2507.22915v1"
+    },
+    {
+      "number": 5,
+      "chunk_id": 1125899906843231,
+      "score": 0.02694394213381555,
+      "title": "A Systematic Literature Review of Code Hallucinations in LLMs: Characterization, Mitigation Methods, Challenges, and Future Directions for Reliable AI",
+      "arxiv_id": "2511.00776v1",
+      "year": 2025,
+      "section": "Methods",
+      "text": "or uncertain Often produced with high confi- dence Detectability Relatively easy to spot and fix Harder to detect; can appear plausi- ble and misleading Impact Limited, often superficial Severe, especially when used in high-stakes tasks 8.1.2 Understanding the Relationship Between Model Confidence and Hallucination. Although language models often assign high probabilities to generated sequences, such high confidence does not necessarily imply factual correctness. Let \ud835\udc43(\ud835\udc66| \ud835\udc65) denote the model\u2019s conditional probability of generating output \ud835\udc66given input \ud835\udc65; a high value of \ud835\udc43(\ud835\udc66| \ud835\udc65) or a low perplexity score, defined as PPL(\ud835\udc66| \ud835\udc65) = exp \u22121 \ud835\udc5b \ud835\udc5b \u2211\ufe01 \ud835\udc56=1 log \ud835\udc43(\ud835\udc66\ud835\udc56| \ud835\udc66<\ud835\udc56,\ud835\udc65) ! , (12) The PPL only indicates the model\u2019s internal certainty based on training distributions, not the factual validity of \ud835\udc66. Consequently, the model may produce hallucinations\u2014outputs that are syntac- tically fluent but semantically or factually incorrect, even when \ud835\udc43(\ud835\udc66| \ud835\udc65) is high. This phenomenon, often referred to as confident hallucination, suggests that confidence scores and perplexity are insufficient for evaluating factual faithfulness, and calls for additional external verification methods. 8.1.3 Balancing Hallucinations with Generalization. It is widely acknowledged that hallucinations are a consequence of a balance between creativity and factual accuracy, which can be mitigated, but not",
+      "url": "https://arxiv.org/abs/2511.00776v1"
+    },
+    {
+      "number": 6,
+      "chunk_id": 1125899906843501,
+      "score": 0.016129032258064516,
+      "title": "The Unintended Trade-off of AI Alignment:Balancing Hallucination Mitigation and Safety in LLMs",
+      "arxiv_id": "2510.07775v2",
+      "year": 2025,
+      "section": "Introduction",
+      "text": "directly, they often overlook possible side effects of such interventions. Inspired by find- ings in vision-language models (Jin et al., 2025) showing that hallucination and jailbreaking behav- iors share similar optimization criteria, we take a step further to investigate whether analogous inter- actions exist in LLMs. Specifically, we ask how efforts to improve truthfulness might inadvertently affect model safety. We investigate a core tension in alignment: do techniques that strengthen refusals inadvertently reduce factual accuracy, and more broadly, do hal- lucination and refusal behaviors share overlapping internal representations? To address this, we ask two questions in tandem: RQ1 (Trade-off)\u2014how do truthfulness-enhancing edits affect jailbreak sus- ceptibility across safety benchmarks, and to what extent can we retain factual gains without sup- pressing benign information?\u2014and RQ2 (Mecha- 2We categorize these errors into three types: Type A: The correct fact was present in the pretraining data, but the model fails to retrieve or express it accurately. Type B: An incorrect fact was present in the pretraining data, or a fact is repro- duced out of context, such that it loses its intended meaning. Type C: Neither a correct nor incorrect fact was present in the pretraining data, leading the model to over-generalize or",
+      "url": "https://arxiv.org/abs/2510.07775v2"
+    },
+    {
+      "number": 7,
+      "chunk_id": 2251799813685340,
+      "score": 0.032266458495966696,
+      "title": "Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention",
+      "arxiv_id": "2608.26168v1",
+      "year": 2026,
+      "section": "Methods",
+      "text": "responsible. To address RQ4, this section examines mitigation strategies that aim to reduce or correct hallu- cinations after they occur, analyzing techniques applied at the data, training, and inference stages of the LLM lifecycle. In this survey, mitigation refers to interven- tions designed to reduce, correct, or contain hallucinations after the core model pretraining stage has already occurred. These approaches typically operate during post-training alignment, retrieval augmentation, decoding control, veri- fication, or response correction. Prevention, by contrast, refers to proactive strategies intended to reduce the likelihood of hallucination emer- gence before or during foundational model devel- opment. Preventive approaches primarily focus on improving dataset quality, strengthening train- ing robustness, embedding factual grounding, and introducing structural constraints that reduce hal- lucination risks earlier in the lifecycle pipeline. Although certain techniques such as reinforcement learning through human feedback (RLHF) may exhibit characteristics of both mitigation and pre- vention, this survey categorizes them according to their primary operational role within the lifecycle framework. 5.1 Data-Related Mitigation methods based on data address halluci- nations caused by biased, incomplete or conflicting data. Such problems as it has been mentioned in 14 Fig. 3 Lifecycle-based derivation of hallucination detection methods in LLMs. Each lifecycle stage introduces",
+      "url": "https://arxiv.org/abs/2608.26168v1"
+    },
+    {
+      "number": 8,
+      "chunk_id": 2251799813685350,
+      "score": 0.03128054740957967,
+      "title": "Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention",
+      "arxiv_id": "2608.26168v1",
+      "year": 2026,
+      "section": "Methods",
+      "text": "that halluci- nation reduction techniques operate at different levels of the LLM lifecycle and exhibit varying trade-offs between effectiveness, computational cost, and generalizability. Data-level mitigation methods such as retrieval-augmented generation and post-training data augmentation primarily improve factual grounding by incorporating exter- nal knowledge or higher-quality training signals. Training-level approaches, including model edit- ing, contrastive learning, and reinforcement learn- ing with human or AI feedback, attempt to modify internal representations to better distin- guish factual and spurious patterns. Inference- time methods such as self-reflection, confidence calibration, and external fact-checking act as run- time safeguards that detect or correct unreliable outputs during generation. However, the analysis also reveals that many mitigation techniques rely on additional infrastructure such as retrieval sys- tems, verification pipelines, or feedback models, which introduces new dependencies and compu- tational costs. Consequently, current mitigation strategies function primarily as corrective mecha- nisms rather than fully eliminating the underlying causes of hallucinations. 6 Prevention of Hallucination Mitigation techniques deal with correcting what has already happened, whereas prevention tech- niques deal with the repression of the appearance of hallucinations at the outset. Prevention mea- sures are a proactive solution that lowers the level of post-hoc corrections since they improve the quality of",
+      "url": "https://arxiv.org/abs/2608.26168v1"
+    },
+    {
+      "number": 10,
+      "chunk_id": 1125899906844240,
+      "score": 0.015625,
+      "title": "HalluLens: LLM Hallucination Benchmark",
+      "arxiv_id": "2504.17550v1",
+      "year": 2025,
+      "section": "Introduction",
+      "text": "Data-Related: Unseen or Limited Knowledge When the training data lacks relevant information, the model may attempt to fabricate responses to queries, leading to potential extrinsic hallucinations. This issue arises with queries requiring up-to-date knowledge (Kasai et al., 2023; Li et al., 2023a; Onoe et al., 2022), involving unanswerable problems (e.g., unsolved scientific problems) (Yin et al., 2023; Amayuelas et al., 2023), and concerning long-tail knowledge (Mallen et al., 2023a; Kandpal et al., 2023). In such cases, LLMs may generate content unsupported by the training data. Ideally, LLMs should recognize the knowledge bourdary, \u201cwhat they don\u2019t know\u201d, and abstain from providing fabricated content when encountering queries that require such knowledge (Cheng et al., 2024; Feng et al., 2024). Data-Related: ContradictoryorNoisyTrainingDataandInputSource When the training data contains conflicting or noisy information the model may become confused or misled (Carlini et al., 2021). This can challenge semantic understanding and parametric knowledge learning, leading to both extrinsic and intrinsic hallucinations. If the generated content is supported by any part of the training data, it is not considered hallucination, as it aligns with the training data. However, contradictory data can result in a generation that does not align with any specific part. Meanwhile, input sources that",
+      "url": "https://arxiv.org/abs/2504.17550v1"
+    },
+    {
+      "number": 13,
+      "chunk_id": 1125899906844138,
+      "score": 0.03278688524590164,
+      "title": "HalluScan: A Systematic Benchmark for Detecting and Mitigating Hallucinations in Instruction-Following LLMs",
+      "arxiv_id": "2605.02443v2",
+      "year": 2026,
+      "section": "Limitations",
+      "text": "primary metrics to quantify uncertainty. English-only evaluation. Our benchmark is conducted exclusively in English, limiting the generalizability of findings to multilingual or non-English contexts. Hallu- cination patterns may differ substantially across languages, particularly for languages with less training data representation or different linguistic structures. The effective- ness of detection methods may also vary, as NLI models are predominantly trained on English data and may perform poorly on non-English inputs. LLM-as-Judge variance. The LLM-as-Judge detection method relies on the capabilities of the judge model, introducing a source of variance that is difficult to fully control. While we mitigate this through structured evaluation rubrics and position randomization, the judge model itself may exhibit biases or hallucinations that affect evaluation reliability. This limitation is inherent to any evaluation framework that uses LLMs as evaluators and represents a fundamental challenge in the field. Static benchmark assumption. Our benchmark evaluates models on fixed datasets at a single point in time. In practice, LLM hallucination patterns evolve as models are updated, fine-tuned, or deployed with different system prompts. A static benchmark cannot capture these temporal dynamics, and detection methods that perform well on current model outputs may become less effective as models evolve. Continuous benchmarking approaches",
+      "url": "https://arxiv.org/abs/2605.02443v2"
+    },
+    {
+      "number": 14,
+      "chunk_id": 1125899906844245,
+      "score": 0.03021353930031804,
+      "title": "HalluLens: LLM Hallucination Benchmark",
+      "arxiv_id": "2504.17550v1",
+      "year": 2025,
+      "section": "Introduction",
+      "text": "benchmark are: (1) whether the knowledge scope is within the training data, and (2) whether refusal is evaluated in the metric. To reduce the risk of test sets being memorized or leaked, we dynamically generate new test questions during evaluation (i.e., no fixed test set). This ensures that the content is unpredictable and not directly accessible in any pre-existing datasets. This is not a trivial challenge as this dynamicity brings in the tension with reproducibility. Thus, the dynamic set should also coincide with low variance over different versions of the test set. Additionally, we design the tasks to cover a broad range of topics, enhancing the robustness and generalizability of the evaluation process. The three newly introduced tasks provide diverse and comprehensive coverage of various scenarios, allowing for a thorough assessment of the models\u2019 performance under different conditions. By doing so, our benchmark offers a more complete understanding of the strengths and weaknesses of LLMs in terms of extrinsic hallucination. 2 1. PreciseWikiQA: to evaluate the level of hallucination of the model on short and fact-seeking queries based on the knowledge from the training data. The questions are bounded to training data, thus, an ideal model should be able to",
+      "url": "https://arxiv.org/abs/2504.17550v1"
+    },
+    {
+      "number": 15,
+      "chunk_id": 1125899906842997,
+      "score": 0.02976190476190476,
+      "title": "OpenHalDet: A Unified Benchmark for Hallucination Detection across Diverse Generation Scenarios",
+      "arxiv_id": "2606.06959v1",
+      "year": 2026,
+      "section": "Introduction",
+      "text": "heterogeneous datasets and detectors through a shared interface, reducing the engineering effort for reproducible evaluation. \u2022 Insights. Our evaluation yields three findings: 1) detector effectiveness is scenario- and backbone-dependent, with self-reported confidence varying strongly across settings; 2) richer model access raises the performance ceiling, but does not guarantee robust gains; 3) evidence acquisition often dominates cost, making accuracy-only comparisons incomplete. 2 Task Formulation, Benchmark Scope, and Dataset Construction Here, we first introduce the task formulation studied in our benchmark. We then describe the scope of our benchmark. Further, we describe how datasets with different original formats are converted into a unified evaluation format. Finally, we present the evaluation metrics used in our experiments. 2.1 Task Formulation Let Q and A be the spaces of inputs and outputs. Following [3, 39, 40], we consider a base LLM as a probability distribution P\u03b8(\u00b7) over token sequences, where \u03b8 denotes the model parameters. Given an input token sequence Q = [q1, . . . , qk] \u2208Q, where qj is the j-th token, the LLM generates an output 2 Table 1: Dataset coverage of OpenHalDet across diverse generation scenarios. The format column specifies the task structure used for unified prompt construction and annotation.",
+      "url": "https://arxiv.org/abs/2606.06959v1"
+    }
+  ],
+  "invalid_citations": [],
+  "uncited_sentences": [
+    "Language models trained on corpora with conflicting or low\u2011quality content often generate outputs that do not align with any part of the training data, producing both extrinsic and intrinsic hallucinations.",
+    "This phenomenon is a direct consequence of noisy or contradictory data in the training set.",
+    "| Lifecycle stage | Typical methods | Reported impact on hallucination | Key source |",
+    "|-----------------|-----------------|-----------------------------------|------------|",
+    "The papers emphasize data\u2011level fixes as the most direct response to noisy training material, whereas training\u2011 and inference\u2011time techniques act as complementary safeguards.",
+    "Calibration methods are applied across stages to improve the reliability of model confidence.",
+    "These gaps highlight the need for controlled experiments that systematically vary training\u2011data noise levels and evaluate corresponding changes in accuracy, calibration, and generalization across diverse benchmark settings."
+  ],
+  "log": [
+    {
+      "step": "plan",
+      "message": "Breaking the topic into sub-questions..."
+    },
+    {
+      "step": "plan_done",
+      "message": "Plan: 3 sub-questions",
+      "sub_questions": [
+        {
+          "question": "How does the presence of noise in training data affect the accuracy, calibration, and generalization of language models?",
+          "search_query": "noisy data language model accuracy calibration generalization"
+        },
+        {
+          "question": "What mitigation techniques such as data cleaning robust training regularization exist to counteract noisy data and how effective are they?",
+          "search_query": "robust training data cleaning noise mitigation language model"
+        },
+        {
+          "question": "What evaluation protocols and benchmark datasets are used to quantify the impact of noisy data on language model performance?",
+          "search_query": "evaluation protocols noisy data benchmark metrics language model"
+        }
+      ]
+    },
+    {
+      "step": "check",
+      "message": "[1/3] Checking what we already know: How does the presence of noise in training data affect the accuracy, calibration, and generalization of language models?"
+    },
+    {
+      "step": "coverage",
+      "message": "Coverage score 3/10",
+      "score": 3,
+      "missing": "Explicit discussion of how training data noise affects model accuracy, calibration, and generalization is absent."
+    },
+    {
+      "step": "check",
+      "message": "[2/3] Checking what we already know: What mitigation techniques such as data cleaning robust training regularization exist to counteract noisy data and how effective are they?"
+    },
+    {
+      "step": "coverage",
+      "message": "Coverage score 2/10",
+      "score": 2,
+      "missing": "No explicit discussion of data cleaning, robust training, or regularization techniques for noisy data, nor quantitative evidence of their effectiveness."
+    },
+    {
+      "step": "check",
+      "message": "[3/3] Checking what we already know: What evaluation protocols and benchmark datasets are used to quantify the impact of noisy data on language model performance?"
+    },
+    {
+      "step": "coverage",
+      "message": "Coverage score 3/10",
+      "score": 3,
+      "missing": "The passages discuss evaluation protocols and benchmark datasets for hallucination detection and model robustness, but they do not explicitly cover protocols that quantify the impact of noisy data (e.g., controlled noise injection, noise-aware benchmarks, or metrics designed to measure performance degradation under noisy conditions)."
+    },
+    {
+      "step": "compare",
+      "message": "Comparing 5 papers...",
+      "papers": [
+        "A Systematic Literature Review of Code Hallucinations in LLMs: Characterization, Mitigation Methods, Challenges, and Future Directions for Reliable AI",
+        "Theoretical Foundations and Mitigation of Hallucination in Large Language Models",
+        "HalluLens: LLM Hallucination Benchmark",
+        "Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention",
+        "HalluScan: A Systematic Benchmark for Detecting and Mitigating Hallucinations in Instruction-Following LLMs"
+      ]
+    },
+    {
+      "step": "write",
+      "message": "Writing the literature review..."
+    },
+    {
+      "step": "done",
+      "message": "Done. 10 sources cited."
+    }
+  ]
+}

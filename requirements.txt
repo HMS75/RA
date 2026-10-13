@@ -5,4 +5,8 @@ python-dotenv
 requests
 fastembed
 numpy
-google-genai
+groq
+anthropic
+mcp[cli]<2
+fastapi
+uvicorn[standard]

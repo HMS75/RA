@@ -55,6 +55,14 @@ def build_context(chunks):
 CITE_PATTERN = re.compile(r"\[(\d+(?:\s*,\s*\d+)*)\]")
 
 
+def normalize_citations(text):
+    """Turn other citation styles into plain [n]: 【3】, 【3†L1】, [Source 3], (Source 3), [S3]."""
+    text = re.sub(r"【\s*(\d+)[^】]*】", r"[\1]", text)
+    text = re.sub(r"\[\s*(?:sources?|s)\s*(\d+(?:\s*,\s*\d+)*)\s*\]", r"[\1]", text, flags=re.I)
+    text = re.sub(r"\(\s*sources?\s*(\d+(?:\s*,\s*\d+)*)\s*\)", r"[\1]", text, flags=re.I)
+    return text
+
+
 def extract_citations(text):
     """Find all source numbers used in the text, e.g. [1][3] -> {1, 3}"""
     nums = set()
@@ -83,7 +91,7 @@ def answer_question(question, k=6):
                 "found": False, "sources": [], "invalid_citations": [], "uncited_sentences": []}
 
     user_prompt = f"QUESTION: {question}\n\nSOURCES:\n{build_context(chunks)}"
-    answer = ask_llm(SYSTEM_PROMPT, user_prompt)
+    answer = normalize_citations(ask_llm(SYSTEM_PROMPT, user_prompt))
 
     cited = extract_citations(answer)
     valid = {n for n in cited if 1 <= n <= len(chunks)}

@@ -2,110 +2,110 @@
   "topic": "methods for reducing LLM hallucination",
   "sub_questions": [
     {
-      "question": "What are the main methods employed to reduce hallucination in large language models?",
+      "question": "What are the primary techniques for reducing hallucinations in large language models?",
       "coverage": {
         "score": 8,
-        "missing": "Retrieval\u2011augmented generation, reinforcement\u2011learning\u2011based factuality loss, and other post\u2011processing or fine\u2011tuning strategies are not mentioned."
+        "missing": "Clarify and enumerate specific primary techniques such as retrieval/grounding, memory readout scaling, control codes, contrastive learning, and other mitigation strategies."
       },
       "papers_added": 0
     },
     {
-      "question": "How can hallucination be quantified and evaluated across different benchmarks?",
+      "question": "How can the effectiveness of hallucination reduction methods be rigorously evaluated?",
       "coverage": {
-        "score": 7,
-        "missing": "Details on standardized protocols and methods for aligning metrics across diverse benchmark datasets, and a more systematic comparison framework."
+        "score": 8,
+        "missing": "The passages describe various metrics and comparative experiments but do not give a comprehensive, step\u2011by\u2011step guideline on how to design a rigorous evaluation\u2014e.g., choice of benchmark datasets, statistical tests, human validation, cross\u2011model comparisons, or reporting standards for reproducibility."
       },
       "papers_added": 0
     },
     {
-      "question": "What are the primary limitations and challenges associated with current hallucination mitigation techniques?",
+      "question": "What are the main limitations and open challenges associated with current hallucination reduction approaches?",
       "coverage": {
-        "score": 5,
-        "missing": "The passages mention some challenges in general, but they lack a focused, detailed discussion of the specific limitations of current hallucination mitigation techniques, such as reliance on external data, computational overhead, incomplete coverage of hallucination types, and difficulties in evaluating effectiveness across domains."
+        "score": 6,
+        "missing": "Lack of explicit discussion on the specific shortcomings of reduction techniques (e.g., retrieval quality, over-reliance on external knowledge, failure modes of filtering), and no comprehensive list of open research challenges such as scalability, real-time deployment, or cross-domain generalization."
       },
       "papers_added": 0
     }
   ],
-  "review": "## Overview  \nHallucination in large language models (LLMs) is when the model produces content that is factually incorrect, unfaithful to the input, or unaligned with user instructions. The phenomenon is divided into intrinsic hallucinations, which contradict source content, and extrinsic hallucinations, which are unverifiable with the source\u00a0[1]. Researchers have found that hallucinations often arise when a model tries to stay fluent while it is uncertain about factual content\u00a0[1].\n\n## Main approaches  \n**Detection** \u2013 External verification methods use knowledge bases or search engines, but they are limited by the coverage and timeliness of those sources\u00a0[1]. Consistency\u2011based methods, such as self\u2011consistency checking, evaluate whether multiple generations agree with each other\u00a0[1]. The HalluScan benchmark evaluates six detection methods across 72 configurations, finding that Self\u2011Evaluation achieves the highest AUROC (0.688) and Self\u2011Consistency achieves 0.638, while some methods show score\u2011direction inversion\u00a0[2].  \n**Mitigation** \u2013 Adjusting internal model components, such as attention heads or specific neurons, can improve truthfulness but may introduce side effects\u00a0[3]. Control codes added during training and decoding guide the model toward lexical precision and entailment, reducing hallucinations in knowledge\u2011grounded dialogue\u00a0[4]. Memory\u2011augmented models can be constrained by scaling the readout vector, which mitigates hallucinations in a training\u2011free way and outperforms state\u2011of\u2011the\u2011art editing methods on Wikipedia\u2011style biographies\u00a0[5]. Prompt\u2011based strategies, including self\u2011monitoring prompts and Self\u2011Familiarity, use prompt engineering to predict and avoid hallucinations before they are generated\u00a0[6].\n\n## How the papers compare  \n- HalluScan provides a systematic benchmark that quantifies detection performance and cost savings, showing that Adaptive Detection Routing reduces cost by ~1.7\u00d7 with minimal quality loss\u00a0[2].  \n- External verification methods are more reliable when the knowledge base is up\u2011to\u2011date, whereas consistency methods are cheaper but less accurate on some domains\u00a0[1][2].  \n- Internal manipulation (attention or neuron tuning) can improve factuality but may affect other safety properties, such as resistance to jailbreaking\u00a0[3].  \n- Control codes and prompt\u2011based methods operate at inference time without retraining, but they can reduce generation fluency and diversity\u00a0[4][6].  \n- Memory\u2011augmented constraints are a training\u2011free alternative that shows strong results on specific tasks (biographical entries) but have not been evaluated across many domains\u00a0[5].\n\n## Limitations and open problems  \nEvidence shows that many mitigation techniques overlook potential side effects or safety trade\u2011offs, such as increased jailbreaking vulnerability\u00a0[3]. Benchmarks often focus on isolated tasks or single datasets, providing limited insight into how hallucinations emerge across the entire LLM lifecycle\u00a0[9]. Some detection methods perform poorly on certain domains or exhibit score\u2011direction inversion, indicating that effectiveness varies with context\u00a0[2]. Log\u2011probability\u2011based detection can reduce hallucination rates substantially in finance QA, but its performance relative to other benchmarks is still unclear\u00a0[8]. The field lacks unified evaluation protocols and shared test sets, making direct comparison difficult\u00a0[10].\n\n## Gaps in the evidence  \nThere is weak evidence that a single mitigation approach consistently outperforms others across all domains, because most studies evaluate on a narrow set of tasks or models\u00a0[2][5][6]. The interaction between hallucination mitigation and other safety objectives (e.g., jailbreak resistance, privacy) remains underexplored\u00a0[3]. Few works provide long\u2011term, lifecycle\u2011oriented studies that trace how upstream training choices influence downstream hallucination behavior\u00a0[9]. Consequently, more comprehensive, standardized benchmarks and systematic analyses of trade\u2011offs are needed to advance reliable LLM deployment.",
+  "review": "## Overview  \nLarge language models (LLMs) often produce factually incorrect or inconsistent content, known as hallucination, which harms their reliability in real\u2011world tasks [5].  \nStudies have concentrated on detecting when hallucinations occur and on mitigating them once identified [3].  \nRecent work shows that active detection and mitigation can substantially lower hallucination rates, for example reducing GPT\u20113.5 hallucinations from 47.5\u202f% to 14.5\u202f% on average [1][5].  \nThe approaches differ in whether they operate at inference time, during training, or by augmenting the model\u2019s knowledge base [1][2][4].  \n\n## Main approaches  \n\n- **Detection by confidence or semantic consistency**: Methods analyze model log probabilities, entropy, or linear probing to flag low\u2011confidence or inconsistent tokens. These techniques achieve high recall and can be deployed at inference time [3].  \n\n- **Mitigation through internal model changes**: Strategies such as adjusting attention heads, identifying neurons that promote truthfulness, or scaling memory readout vectors constrain generation and reduce hallucinations [3][2].  \n\n- **Knowledge\u2011grounding and retrieval\u2011augmented generation**: Models fuse external knowledge graphs or retrieval systems with dialogue history to ground responses in factual data [4][18].  \n\n- **Control codes and contrastive learning**: Introducing explicit control tokens or contrastive objectives guides generation toward truthful outputs [4].  \n\n- **Self\u2011refinement and phase\u2011wise self\u2011reward**: Models iteratively refine outputs or reward internally generated hallucination scores, trading inference cost for reduced hallucination severity [11][7][9].  \n\n## How the papers compare  \n\n- The active detection\u2013mitigation pipeline reported in one study achieves a recall of ~88\u202f% and mitigates 57.6\u202f% of detected hallucinations, cutting overall hallucination rates to 14.5\u202f% for GPT\u20113.5 [5].  \n- A memory\u2011augmented decoding method that scales the readout vector shows training\u2011free mitigation and outperforms state\u2011of\u2011the\u2011art editing methods on Wikipedia\u2011style biographies [2].  \n- The RHO dialogue model merges knowledge\u2011graph triples with dialogue history, using local and global grounding to align responses, illustrating a knowledge\u2011grounded approach [4].  \n- Retrieval\u2011augmented generation (Rowen) outperforms baselines on TruthfulQA and StrategyQA, indicating strong generalization to new datasets and models [10].  \n- Self\u2011refinement consistently reduces hallucinations more than retrieval\u2011augmented generation, but the gains are modest and retrieval quality remains a limiting factor [11].  \n- Phase\u2011wise self\u2011reward (PSRD) shows a clear trade\u2011off: lower thresholds decrease inference time but increase hallucination severity, with a 67.2\u202f% CHAIR reduction at a 30\u202f% threshold [7][9].  \n\n## Limitations and open problems  \n\n- Many mitigation methods are **corrective** rather than preventive; they do not eliminate underlying causes of hallucination and may rely on additional infrastructure such as retrieval systems or verification pipelines [8].  \n- Interventions that modify internal representations can introduce side effects or fail to generalize across tasks, and their safety impact has not been fully explored [3].  \n- Computational cost varies widely: some methods require multiple decoding branches or additional inference time, limiting real\u2011time deployment [7][9][11].  \n- Benchmarks often focus on isolated outputs and lack lifecycle\u2011wide evaluation, so the full impact of mitigation across the generation pipeline remains unclear [8][16].  \n- Knowledge\u2011grounding approaches depend heavily on the quality and coverage of external resources, and retrieval errors can limit effectiveness [4][10].  \n\n## Gaps in the evidence  \n\n- Lifecycle\u2011oriented benchmarks that trace hallucination emergence across data collection, training, and inference stages are still scarce [8][16].  \n- Empirical studies on preventive strategies that reduce hallucination before generation start are limited [8][3].  \n- Comparative analyses across diverse domains (e.g., code generation, dialogue, summarization) are incomplete, especially for multimodal models [7][11][10].  \n- The trade\u2011offs between effectiveness, efficiency, and safety of mitigation techniques need systematic quantification [7][8][11].  \n- More research is needed on how mitigation affects downstream tasks such as decision support or code synthesis [11].",
   "comparison": [
-    {
-      "arxiv_id": "2608.26168v1",
-      "title": "Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention",
-      "year": 2026,
-      "problem": "Hallucinations in LLMs across data, training, inference stages affect reliability in high-stakes domains.",
-      "method": "Lifecycle-based survey using systematic literature identification, screening, PRISMA flow, coding, and comparative analysis.",
-      "data_or_benchmarks": "Benchmarks include NQ, TriviaQA, WebQuestions, CuratedTrec, FEVER; metrics like EM, AUC, accuracy reported.",
-      "key_results": "Provides three-fold categorization, standardized framework, detection/mitigation strategies, and comparative effectiveness of interventions.",
-      "limitations": "Not explicitly stated; reliance on available benchmarks, data quality, and evaluation scope limited to outputs."
-    },
-    {
-      "arxiv_id": "2605.02443v2",
-      "title": "HalluScan: A Systematic Benchmark for Detecting and Mitigating Hallucinations in Instruction-Following LLMs",
-      "year": 2026,
-      "problem": "LLMs hallucinate, producing factually incorrect or misaligned content, challenging safe deployment.",
-      "method": "HalluScan benchmark evaluates 6 detection methods across 4 models, 3 domains, 72 configs.",
-      "data_or_benchmarks": "600 responses (50 Q per domain \u00d74 models), 3 domains, 72 configurations.",
-      "key_results": "Hallucination metric HalluScore r=0.41; ADR cuts cost 2\u00d7, AUROC loss 0.1%; NLI Verif AUROC 0.88; Self\u2011Eval 0.688.",
-      "limitations": "not stated"
-    },
-    {
-      "arxiv_id": "2512.03107v1",
-      "title": "Detecting AI Hallucinations in Finance: An Information-Theoretic Method Cuts Hallucination Rate by 92%",
-      "year": 2025,
-      "problem": "LLMs hallucinate unsupported answers, limiting safe deployment in finance.",
-      "method": "ECLIPSE matches semantic entropy to evidence capacity using entropy estimation and perplexity decomposition.",
-      "data_or_benchmarks": "200 balanced financial QA samples from SEC filings and transcripts, GPT-3.5-turbo used.",
-      "key_results": "ROC AUC 0.89, average precision 0.90, 92% hallucination reduction over baseline.",
-      "limitations": "Validated only on synthetic data; no natural hallucinations; logprob dependency; adversarial robustness untested."
-    },
     {
       "arxiv_id": "2511.00776v1",
       "title": "A Systematic Literature Review of Code Hallucinations in LLMs: Characterization, Mitigation Methods, Challenges, and Future Directions for Reliable AI",
       "year": 2025,
-      "problem": "Hallucinations in code-generation LLMs caused by data noise, exposure bias, semantic gaps; worsened by syntax, typing, library dependencies.",
-      "method": "Systematic review of 60 papers per Kitchenham, using defined search terms, addressing four research questions.",
+      "problem": "Hallucinations in code-oriented LLMs impair reliability in high-stakes software engineering tasks.",
+      "method": "Conducted systematic literature review per Kitchenham guidelines, surveying 60 papers.",
       "data_or_benchmarks": "Benchmarks include static metrics and dynamic checks like compilation and execution correctness.",
-      "key_results": "Identified causes, mitigation strategies (knowledge-enhanced, constrained decoding, post-editing), code challenges, and evaluation methods.",
-      "limitations": "Need unified hallucination-aware benchmarks; challenges in private codebases; balancing generalization and factual reliability."
+      "key_results": "Identified causes: data noise, exposure bias, semantic grounding; mitigation: knowledge-enhanced, constrained, post-editing; code-specific challenges: syntax, typing, libraries; detection via program analysis, symbolic execution, unit testing.",
+      "limitations": "Need unified, hallucination-aware benchmarks; challenges balancing generalization and factual reliability; detection in private codebases."
+    },
+    {
+      "arxiv_id": "2307.03987v2",
+      "title": "A Stitch in Time Saves Nine: Detecting and Mitigating Hallucinations of LLMs by Validating Low-Confidence Generation",
+      "year": 2023,
+      "problem": "Hallucinations in large language models reduce reliability and coherence.",
+      "method": "Actively detect hallucinations using logit uncertainty, validate via queries, then mitigate by repairing sentences before continuing generation.",
+      "data_or_benchmarks": "GPT-3.5 (text\u2011davinci\u2011003) article generation, multi\u2011hop/false premise questions, and Vicuna LLM.",
+      "key_results": "Recall 88% detection; mitigation fixes 57.6% of detected cases; hallucinations drop from 47.5% to 14.5%.",
+      "limitations": "not stated"
+    },
+    {
+      "arxiv_id": "2604.17982v1",
+      "title": "Mitigating Multimodal Hallucination via Phase-wise Self-reward",
+      "year": 2026,
+      "problem": "Vision hallucination in large vision-language models, where responses do not align with visual input.",
+      "method": "Introduce Phase-wise Self-Reward Decoding (PSRD) that distills a lightweight reward model to guide online decoding and suppress hallucinations.",
+      "data_or_benchmarks": "Evaluated on AMBER, Object HalBench, MMHal-Bench, POPE, AMBER HalDet, and MHal-detect.",
+      "key_results": "PSRD cuts hallucination rate of LLaVA-1.5-7B by 50%, outperforms post-hoc methods on five benchmarks, and balances performance with inference efficiency.",
+      "limitations": "not stated"
+    },
+    {
+      "arxiv_id": "2608.26168v1",
+      "title": "Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention",
+      "year": 2026,
+      "problem": "Hallucinations in LLMs undermine reliability across data, training, inference.",
+      "method": "Structured survey using systematic literature review and lifecycle-based coding of hallucination causes and mitigations.",
+      "data_or_benchmarks": "Benchmarks include NQ, TriviaQA, WebQuestions, FEVER, BioGEN, LongFact, FollowRAG, etc.",
+      "key_results": "Identified data, training, inference causes; mapped detection, mitigation, prevention techniques; compared benchmark effectiveness.",
+      "limitations": "Limitations include data bias, retrieval dependence, limited generalization, human bias, high cost, domain specificity, knowledge forgetting."
     },
     {
       "arxiv_id": "2504.20799v2",
       "title": "Hallucination by Code Generation LLMs: Taxonomy, Benchmarks, Mitigation, and Challenges",
       "year": 2025,
-      "problem": "LLMs often hallucinate code that is incorrect and hard to detect, leading to unnoticed errors in codebases.",
-      "method": "Survey reviews studies, classifies hallucination types, examines benchmarks, mitigation techniques, and highlights challenges.",
-      "data_or_benchmarks": "Reviewed existing benchmarks for code hallucination detection.",
-      "key_results": "Identified hallucination categories, evaluated benchmarks, assessed mitigation methods, and outlined future research directions.",
+      "problem": "LLMs generate hallucinated, incorrect code that's hard to detect and fix, often overlooked in codebases.",
+      "method": "Survey: classify hallucination types, review benchmarks/mitigation, identify challenges, propose research directions.",
+      "data_or_benchmarks": "Existing benchmarks reviewed, but specific ones not listed.",
+      "key_results": "Taxonomy of hallucinations, benchmark review, mitigation strategies, challenges, future research roadmap.",
       "limitations": "not stated"
     }
   ],
   "sources": [
     {
       "number": 1,
-      "chunk_id": 1125899906843978,
-      "score": 0.028068137824235385,
-      "title": "Counterfactual Probing for Hallucination Detection and Mitigation in Large Language Models",
-      "arxiv_id": "2508.01862v1",
-      "year": 2025,
-      "section": "Related Work",
-      "text": "2.1. Hallucination in Large Language Models The phenomenon of hallucination in neural language mod- els has been extensively studied across various contexts. Maynez et al. (2020) first systematically characterized hallu- cinations in neural abstractive summarization, while Raunak et al. (2021) investigated hallucinations in neural machine translation. Ji et al. (2023) provide a comprehensive taxon- omy, categorizing hallucinations into intrinsic (contradict- ing source content) and extrinsic (unverifiable with source) types. Recent work has focused on understanding the root causes of hallucinations. McKenzie et al. (2023) demonstrate that hallucinations often stem from the model\u2019s attempt to main- tain fluency when uncertain about factual content. Azaria & Mitchell (2023) investigate whether models \u201dknow\u201d when they are hallucinating, finding that internal representations often contain signals about factual uncertainty. 2.2. Hallucination Detection Methods Current approaches to hallucination detection can be broadly categorized into several paradigms. External verification methods leverage knowledge bases or search engines to fact-check generated content (Varshney et al., 2023; Thorne et al., 2018). However, these approaches are limited by the coverage and timeliness of external sources. Consistency-based methods exploit the intuition that hal- lucinated content should be less consistent across multiple generations. Wang et al. (2023) propose self-consistency checking, while Manakul et",
-      "url": "https://arxiv.org/abs/2508.01862v1"
+      "chunk_id": 1125899906843708,
+      "score": 0.03131881575727918,
+      "title": "A Stitch in Time Saves Nine: Detecting and Mitigating Hallucinations of LLMs by Validating Low-Confidence Generation",
+      "arxiv_id": "2307.03987v2",
+      "year": 2023,
+      "section": "Conclusion",
+      "text": "In this work, we proposed an approach that actively \u2018detects\u2019 and \u2018mitigates\u2019 hallucinations of the large language models. Through systematic and exten- sive experiments with the article generation task, we showed that our approach successfully reduces the hallucinations of the GPT-3.5 (text-davinci-003) from 47.5% to 14.5% on average. We also demon- strated the individual efficacy of our detection and mitigation techniques. Specifically, our detection technique achieves a high recall and the mitigation technique successfully mitigates a large fraction of the correctly detected hallucinations. Notably, the mitigation technique does not introduce new hallucinations even in the case of incorrectly de- tected hallucinations, i.e., false positives. We fur- ther demonstrated the effectiveness and wide appli- cability of our approach and presented several in- teresting studies including evaluation with another LLM (Vicuna) and answering multi-hop and false premise questions. Overall, our work addresses the LLMs\u2019 hallucination problem and thus contributes to improving their reliability and trustworthiness, a crucial step en route to enabling their widespread adoption in real-world applications.",
+      "url": "https://arxiv.org/abs/2307.03987v2"
     },
     {
       "number": 2,
-      "chunk_id": 1125899906844071,
-      "score": 0.02715098147128967,
-      "title": "HalluScan: A Systematic Benchmark for Detecting and Mitigating Hallucinations in Instruction-Following LLMs",
-      "arxiv_id": "2605.02443v2",
-      "year": 2026,
+      "chunk_id": 1125899906843535,
+      "score": 0.030776515151515152,
+      "title": "Generation Constraint Scaling Can Mitigate Hallucination",
+      "arxiv_id": "2407.16908v1",
+      "year": 2024,
       "section": "Abstract",
-      "text": "Large Language Models (LLMs) have demonstrated remarkable capabilities across diverse natural language processing tasks, yet they remain susceptible to hallucinations\u2014generating content that is factually incorrect, unfaithful to pro- vided context, or misaligned with user instructions. We present HalluScan, a comprehensive benchmark framework that systematically evaluates hallucination detection and mitigation across 72 configurations spanning 6 detection methods, 4 open-weight model families, and 3 diverse domains, evaluated on 600 model- response pairs (50 questions per domain \u00d7 4 models). We introduce three key contributions: (1) HalluScore, a novel composite metric validated with proper train/test separation; (2) Adaptive Detection Routing (ADR), an intelligent routing algorithm achieving \u223c1.7\u00d7 cost reduction with minimal quality loss; and (3) systematic detection analysis with bootstrap confidence intervals revealing substantial variation in method effectiveness across domains. All sampling-based methods use \ud835\udc72=5 multi-responses for statistically meaningful uncertainty esti- mation. Our experiments reveal that Self-Evaluation achieves the highest pooled detection performance (AUROC 0.688), followed by Self-Consistency (0.638), while three of six detection methods (SemE, Judge, RAV) exhibit score-direction inversion on compact model outputs, a finding with important implications for method deployment. Keywords: Large Language Models \u00b7 Hallucination Detection \u00b7 Compact Neural Models \u00b7 Benchmark \u00b7 Natural Language Inference \u00b7 Self-Consistency \u00b7",
-      "url": "https://arxiv.org/abs/2605.02443v2"
+      "text": "Addressing the issue of hallucinations in large language models (LLMs) is a critical challenge. As the cognitive mechanisms of hallucination have been related to memory, here we explore hallucination for LLM that is enabled with explicit memory mechanisms. We empirically demonstrate that by simply scaling the readout vector that constrains generation in a memory-augmented LLM decoder, hallucination mitigation can be achieved in a training-free manner. Our method is geometry-inspired and outperforms a state-of-the-art LLM editing method on the task of generation of Wikipedia-like biography entries both in terms of generation quality and runtime complexity. Introduction and Background While large language models exhibit remarkable performance in language generation and machine translation, their generations suffer from the issue of hallucinations. Model editing techniques provide a path to mitigate such issues, which involve modifying model parameters such that model outputs are changed to desired responses for specific questions without compromising the accuracy for others. Context-grounding has been proposed as another means, where desired response (the actual fact) is included in the context within the prompt, with the expectation that the decoder will utilize the information included in the prompt. Given the relation between memory and hallucination in psychology Berberette et al. (2024), it",
+      "url": "https://arxiv.org/abs/2407.16908v1"
     },
     {
       "number": 3,
       "chunk_id": 1125899906843500,
-      "score": 0.01639344262295082,
+      "score": 0.03036576949620428,
       "title": "The Unintended Trade-off of AI Alignment:Balancing Hallucination Mitigation and Safety in LLMs",
       "arxiv_id": "2510.07775v2",
       "year": 2025,
@@ -115,52 +115,85 @@
     },
     {
       "number": 4,
-      "chunk_id": 1125899906843386,
-      "score": 0.01639344262295082,
+      "chunk_id": 1125899906843369,
+      "score": 0.0264808362369338,
       "title": "Hallucination Detection and Hallucination Mitigation: An Investigation",
       "arxiv_id": "2401.08358v1",
       "year": 2024,
       "section": "Methods",
-      "text": "control codes to guide the language model in producing responses that emphasize lexical precision, objective voice, and entailment; this is achieved by integrating these codes during the training phase to reduce hallucinations and by employing these code in a resampling method during the decoding phase. Rashkin et al. proposed a method to enhance the faithfulness of responses in knowledge- grounded dialogue systems by incorporating control codes [41]. The problem is how to ensure that make knowledge-grounded dialogue systems generated conversational responses remain faithful to the provided evidence, especially when the conversation datasets contain both evidence-based and subjective responses. The authors introduced control codes, which are special tokens that will be used to influence the LM by being added to the input or designed to guide the output from language models. 31 Figure 4.2: System framework: a large pre-trained language model is employed to encode both the evidence and conversation history leading to produce a response. Additional tokens (i.e. control codes) are incorporated to train the model to recognize dif- ferences between types of utterance based on their alignment with the evidence. During the decoding phase, the authors investigate the significance of using resam- pling methods. (Figure source: [41]) To produce",
+      "text": "tasks while sample contrast, on the contrary, is detrimental to the performance of the detection. 4 HALLUCINATION MITIGATION Hallucination mitigation is the task to reduce the potential hallucinations in the generated responses by LLMs. The papers reviewed in this section includes three categories: knowledge and retrieval-based approaches [18, 9, 45], which ground LLM responses in factual data using external knowledge sources such as knowledge graphs and retrieval systems. Another category is training or reference guiding for language models, involves strategies like employing control codes [41], or contrastive learning [47] to guide the generation process to discern between correct and hallucinated content. The third category is evaluation and mitigation on the language model generated content focusing on specific hallucination types, such as employing methods to evaluate quantity entity in summarization [58], and methods to detect and mitigate self-contradictory statements [33]. 25 4.1 RHO: REDUCING HALLUCINATION IN OPEN-DOMAIN DIALOGUES WITH KNOWLEDGE GROUNDING [18] Github Link: https://github.com/ziweiji/rho Task: Knowledge-Grounded Dialogue Core Idea: RHO is a conversational model that reduces hallucinations by merging knowledge graph triples with dialogue history and employing both local and global grounding techniques to ensure responses align with the provided knowledge and dialogue context. RHO [18] is a conversational model",
       "url": "https://arxiv.org/abs/2401.08358v1"
     },
     {
       "number": 5,
-      "chunk_id": 1125899906843535,
-      "score": 0.016129032258064516,
-      "title": "Generation Constraint Scaling Can Mitigate Hallucination",
-      "arxiv_id": "2407.16908v1",
-      "year": 2024,
+      "chunk_id": 1125899906843652,
+      "score": 0.02454819277108434,
+      "title": "A Stitch in Time Saves Nine: Detecting and Mitigating Hallucinations of LLMs by Validating Low-Confidence Generation",
+      "arxiv_id": "2307.03987v2",
+      "year": 2023,
       "section": "Abstract",
-      "text": "Addressing the issue of hallucinations in large language models (LLMs) is a critical challenge. As the cognitive mechanisms of hallucination have been related to memory, here we explore hallucination for LLM that is enabled with explicit memory mechanisms. We empirically demonstrate that by simply scaling the readout vector that constrains generation in a memory-augmented LLM decoder, hallucination mitigation can be achieved in a training-free manner. Our method is geometry-inspired and outperforms a state-of-the-art LLM editing method on the task of generation of Wikipedia-like biography entries both in terms of generation quality and runtime complexity. Introduction and Background While large language models exhibit remarkable performance in language generation and machine translation, their generations suffer from the issue of hallucinations. Model editing techniques provide a path to mitigate such issues, which involve modifying model parameters such that model outputs are changed to desired responses for specific questions without compromising the accuracy for others. Context-grounding has been proposed as another means, where desired response (the actual fact) is included in the context within the prompt, with the expectation that the decoder will utilize the information included in the prompt. Given the relation between memory and hallucination in psychology Berberette et al. (2024), it",
-      "url": "https://arxiv.org/abs/2407.16908v1"
+      "text": "Recently developed large language models have achieved remarkable success in generat- ing fluent and coherent text. However, these models often tend to \u2018hallucinate\u2019 which crit- ically hampers their reliability. In this work, we address this crucial problem and propose an approach that actively detects and mitigates hallucinations during the generation process. Specifically, we first identify the candidates of potential hallucination leveraging the model\u2019s logit output values, check their correctness through a validation procedure, mitigate the detected hallucinations, and then continue with the generation process. Through extensive ex- periments with GPT-3.5 (text-davinci-003) on the \u2018article generation task\u2019, we first demon- strate the individual efficacy of our detection and mitigation techniques. Specifically, the de- tection technique achieves a recall of \u223c88% and the mitigation technique successfully mit- igates 57.6% of the correctly detected halluci- nations. Importantly, our mitigation technique does not introduce new hallucinations even in the case of incorrectly detected hallucinations, i.e., false positives. Then, we show that the pro- posed active detection and mitigation approach successfully reduces the hallucinations of the GPT-3.5 model from 47.5% to 14.5% on aver- age. We further demonstrate the effectiveness and wide applicability of our approach through additional studies including performance on dif- ferent types",
+      "url": "https://arxiv.org/abs/2307.03987v2"
     },
     {
-      "number": 6,
-      "chunk_id": 1125899906842987,
-      "score": 0.016129032258064516,
-      "title": "Insights into Classifying and Mitigating LLMs' Hallucinations",
-      "arxiv_id": "2311.08117v1",
-      "year": 2023,
+      "number": 7,
+      "chunk_id": 2251799813685280,
+      "score": 0.03055037313432836,
+      "title": "Mitigating Multimodal Hallucination via Phase-wise Self-reward",
+      "arxiv_id": "2604.17982v1",
+      "year": 2026,
       "section": "Methods",
-      "text": "memory augmentation, the same cannot be said for LLMs, as no tests have been run. Prompt-based solutions have been recently introduced to \u2019de-hallucinate\u2019 LLMs. Jha et al. [59] proposed a self-monitoring prompting framework. This framework leverages formal methods to identify errors in the LLM\u2019s responses autonomously. They employed the conversational abilities of LLMs for response alignment with specified correctness criteria through iterative refinement. Luo et al. [60] proposed Self-Familiarity, a method to overcome the current SOTA (State-of-the-art) techniques that identify and mitigate hallucinations post-generation. Self-Familiarity introduced an innovative zero-resource, pre-detection approach to mitigate the risk of large language models (LLMs) producing inaccurate information. This method extracted and processed conceptual entities from the instruction. Subsequently, it employed prompt engineering to acquire a familiarity score for each concept. These scores were combined to yield the ultimate familiarity score at the instruction level. A low instruction-level familiarity score indicates a higher likelihood of the LLM generating erroneous information, prompting it to abstain from generating a response. Feldman et al. [61] designed a method relying on context-tagged prompts. They created a set of questions and then developed context prompts to help the LLM answer those questions more accurately. They then validated the context prompts",
-      "url": "https://arxiv.org/abs/2311.08117v1"
+      "text": "hallucination detection by encouraging greater intra-class com- pactness (making scores within positive/negative groups closer) while simultaneously increasing the inter-class separation (pushing the two distributions further apart). 4.6 Analyses and Discussions Trade-off between Efficiency and Effectiveness. As demon- strated in Sect. 3.1, adjusting the threshold \ud835\udf0fshifts the boundary where PSRD determines whether a phase is a hallucination. In this sense, the threshold functions as a reward-sensitivity control parameter that modulates the strength of the model\u2019s response to self-evaluated reward feedback during inference. We further analyze the inherent trade-off between effectiveness and efficiency under various thresholds using the Amber generation benchmark. We quantify the effectiveness of hallucination mitigation using the CHAIR score and measure the efficiency using the average inference time per question (seconds). Specifically, we vary the threshold \ud835\udf0ffrom 30% to 20% for the proposed PSRD. We also compare its performance against the base LLaVA1.5-7B and dynamic decoding methods (M3ID and AVISC). Conference acronym \u2019XX, June 03\u201305, 2018, Woodstock, NY Trovato et al. As shown in Figure 5, we observe that as the threshold \ud835\udf0fde- creases, which corresponds to a progressively more relaxed cri- terion for hallucination detection, the time consumed by PSRD decreases, yet the hallucination severity increases, indicated by",
+      "url": "https://arxiv.org/abs/2604.17982v1"
     },
     {
       "number": 8,
-      "chunk_id": 1125899906843106,
-      "score": 0.025978407557354925,
-      "title": "Detecting AI Hallucinations in Finance: An Information-Theoretic Method Cuts Hallucination Rate by 92%",
-      "arxiv_id": "2512.03107v1",
-      "year": 2025,
-      "section": "Discussion",
-      "text": "from uninformative proxies. This has implications for API providers: exposing log probabilities enables substantially better hallucination detection. Cross-paper comparisons and benchmarking. Table 6 compares our results to prior work, but these numbers come from different papers on different datasets. We do not claim to match or exceed these methods on standardized benchmarks; such evaluation requires shared test sets and identical experimental protocols. Our 0.89 AUC on financial QA suggests the approach is promising, but establishing performance relative to baselines on common benchmarks (e.g., TruthfulQA, HaluE- val) remains important future work. The primary contribution is the interpretable, logprob-native mechanism, not a claim of universal superiority. 6",
-      "url": "https://arxiv.org/abs/2512.03107v1"
+      "chunk_id": 2251799813685350,
+      "score": 0.028594771241830064,
+      "title": "Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention",
+      "arxiv_id": "2608.26168v1",
+      "year": 2026,
+      "section": "Methods",
+      "text": "that halluci- nation reduction techniques operate at different levels of the LLM lifecycle and exhibit varying trade-offs between effectiveness, computational cost, and generalizability. Data-level mitigation methods such as retrieval-augmented generation and post-training data augmentation primarily improve factual grounding by incorporating exter- nal knowledge or higher-quality training signals. Training-level approaches, including model edit- ing, contrastive learning, and reinforcement learn- ing with human or AI feedback, attempt to modify internal representations to better distin- guish factual and spurious patterns. Inference- time methods such as self-reflection, confidence calibration, and external fact-checking act as run- time safeguards that detect or correct unreliable outputs during generation. However, the analysis also reveals that many mitigation techniques rely on additional infrastructure such as retrieval sys- tems, verification pipelines, or feedback models, which introduces new dependencies and compu- tational costs. Consequently, current mitigation strategies function primarily as corrective mecha- nisms rather than fully eliminating the underlying causes of hallucinations. 6 Prevention of Hallucination Mitigation techniques deal with correcting what has already happened, whereas prevention tech- niques deal with the repression of the appearance of hallucinations at the outset. Prevention mea- sures are a proactive solution that lowers the level of post-hoc corrections since they improve the quality of",
+      "url": "https://arxiv.org/abs/2608.26168v1"
     },
     {
       "number": 9,
-      "chunk_id": 2251799813685372,
+      "chunk_id": 2251799813685281,
+      "score": 0.027271052146674038,
+      "title": "Mitigating Multimodal Hallucination via Phase-wise Self-reward",
+      "arxiv_id": "2604.17982v1",
+      "year": 2026,
+      "section": "Methods",
+      "text": "et al. As shown in Figure 5, we observe that as the threshold \ud835\udf0fde- creases, which corresponds to a progressively more relaxed cri- terion for hallucination detection, the time consumed by PSRD decreases, yet the hallucination severity increases, indicated by a higher CHAIR score. At \ud835\udf0f= 30%, the proposed PSRD achieves a 67.2% CHAIR reduction over M3ID, with a 4.0\u00d7 inference-time increase. This demonstrates a highly controllable and flexible trade-off between efficiency and effectiveness in PSRD. Hyperparameter Analysis for Target Intervention. We con- ducted a systematic hyperparameter analysis to evaluate the sen- sitivity of the targeted intervention mechanism. This analysis fo- cuses on the top-\ud835\udc58candidate decoding branches, the maximum continuous intervention strength \ud835\udefcmax, and the probe step \ud835\udeffutilized in the secant-style update, all governed by a pre-defined reward acceptance threshold of \ud835\udf0f= 30. The results of these ablations are summarized in Table 7, evaluated using two primary metrics: CHAIR (measuring hallucination rate; lower is better) and Cover (measuring entity coverage and linguistic richness; higher is better). The choice of \ud835\udc58controls the breadth of low-cost scouting and bounds the number of reward evaluations; \ud835\udc58=5 provides sufficient branch exploration while keeping inference overhead modest. The probe step \ud835\udeffdetermines the finite-difference estimate used",
+      "url": "https://arxiv.org/abs/2604.17982v1"
+    },
+    {
+      "number": 10,
+      "chunk_id": 1125899906843282,
+      "score": 0.026875901875901876,
+      "title": "Rowen: Adaptive Retrieval-Augmented Generation for Hallucination Mitigation in LLMs",
+      "arxiv_id": "2402.10612v3",
+      "year": 2024,
+      "section": "Results",
+      "text": "5 Experimental Results In this section, we evaluate the effectiveness of Rowen for halluci- nation mitigation. In particular, we aim to answer the following research questions: \u2022 RQ1: How does Rowen perform compared to existing strong methods for hallucination mitigation? \u2022 RQ2: Is the proposed multilingual detection module superior to other hallucination detection methods? \u2022 RQ3: How well does Rowen generalize to new datasets and models? \u2022 RQ4: How do different hyperparameters affect the perfor- mance of Rowen? \u2022 RQ5: Does Rowen eliminate both types of hallucinations as expected? \u2022 RQ6: Does Rowen reduce unnecessary retrieval calls? 5.1 Main Results (RQ1) We evaluate the effectiveness of Rowen on the TruthfulQA and StrategyQA datasets. Table 4 presents the overall performance of Rowen compared to several strong baselines. Rowen demonstrates superior performance on both datasets, with higher GPT-Judge score and accuracy, indicating the effectiveness of our proposed",
+      "url": "https://arxiv.org/abs/2402.10612v3"
+    },
+    {
+      "number": 11,
+      "chunk_id": 1125899906843072,
       "score": 0.01639344262295082,
+      "title": "When LLMs Invent Rust Crates: An Empirical Study of Hallucination Patterns and Mitigation",
+      "arxiv_id": "2606.08444v2",
+      "year": 2026,
+      "section": "Results",
+      "text": "Overall, both strategies reduce hallucinations for most evaluated models, but their effectiveness differs substantially. As shown in Table 4, self-refinement is consistently more effective than RAG, re- ducing crate hallucinations across all evaluated models. On average, it lowers crate hallucinations by 2\u20133 percentage points, represent- ing a 10\u201315% relative reduction compared to each model\u2019s original baseline. In contrast, RAG provides only limited and less consistent improvements across the evaluated models. This indicates that, un- der our current retrieval setup, RAG does not reliably suppress crate hallucinations and may be sensitive to retrieval quality and how well the retrieved evidence aligns with the model\u2019s generation. The results of the two lightweight strategies suggest that, while both approaches can help reduce hallucination rates for most models to some extent, crate hallucinations remain difficult to mitigate with simple, surface-level prompt interventions. This observation is con- sistent with a prior study, which also reports that straightforward prompting or lightweight pre-processing alone is often insufficient to substantially eliminate package hallucinations [39]. Finding 8. Both self-refinement and RAG reduce hallucination rates, but improvements are modest. Self-refinement is more ef- fective, while RAG\u2019s gains are limited. Answer to RQ3. Both mitigation strategies reduce crate halluci- nations, but",
+      "url": "https://arxiv.org/abs/2606.08444v2"
+    },
+    {
+      "number": 16,
+      "chunk_id": 2251799813685372,
+      "score": 0.016129032258064516,
       "title": "Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention",
       "arxiv_id": "2608.26168v1",
       "year": 2026,
@@ -169,21 +202,20 @@
       "url": "https://arxiv.org/abs/2608.26168v1"
     },
     {
-      "number": 10,
-      "chunk_id": 1125899906843110,
-      "score": 0.01639344262295082,
-      "title": "Detecting AI Hallucinations in Finance: An Information-Theoretic Method Cuts Hallucination Rate by 92%",
-      "arxiv_id": "2512.03107v1",
+      "number": 18,
+      "chunk_id": 1125899906843181,
+      "score": 0.015873015873015872,
+      "title": "A Systematic Literature Review of Code Hallucinations in LLMs: Characterization, Mitigation Methods, Challenges, and Future Directions for Reliable AI",
+      "arxiv_id": "2511.00776v1",
       "year": 2025,
-      "section": "Limitations",
-      "text": "original publications evaluated on different datasets (SelfCheckGPT on WikiBio, Semantic Entropy on TriviaQA, SEPs on various benchmarks). These are not direct comparisons on shared test sets. Our results (0.89 AUC) are on the financial QA dataset described in Section 4. We include this table for orientation only; establishing performance on standardized benchmarks remains future work.",
-      "url": "https://arxiv.org/abs/2512.03107v1"
+      "section": "Methods",
+      "text": "of using LLMs in pathology, emphasizing both their potential and the need for cautious implementation. Wong et al. [137] systematically review the use of LLMs in ophthalmology, noting strong performance in clinical tasks but recurring challenges such as hallucination and domain specificity. Volkmer et al. [125] review the use of LLMs in psychiatry, noting both their clinical promise and challenges, such as bias, privacy, and misinformation risks. Collectively, these studies demonstrate the growing integration of generative AI in various areas of healthcare, while consistently underscoring domain-specific challenges such as hallucinations, misinformation, and the need for cautious, ethically grounded deployment. Hallucination: Identification, Evaluation, and Mitigation. Hallucination in NLG has at- tracted increasing attention due to its negative impact on the reliability of downstream tasks such as summarization, dialogue generation, and question answering. Ji et al. [51] present a compre- hensive survey that systematically reviews definitions, evaluation metrics, mitigation techniques, and task-specific challenges related to hallucinations in NLG, offering insights and future research directions to improve generation faithfulness. Huang et al. [46] provide a comprehensive taxonomy and analysis of hallucinations in LLMs, highlighting unique challenges in open-ended IR systems and discussing both mitigation strategies and future research opportunities. Despite the widespread use",
+      "url": "https://arxiv.org/abs/2511.00776v1"
     }
   ],
   "invalid_citations": [],
   "uncited_sentences": [
-    "Hallucination in large language models (LLMs) is when the model produces content that is factually incorrect, unfaithful to the input, or unaligned with user instructions.",
-    "Consequently, more comprehensive, standardized benchmarks and systematic analyses of trade\u2011offs are needed to advance reliable LLM deployment."
+    "- **Detection by confidence or semantic consistency**: Methods analyze model log probabilities, entropy, or linear probing to flag low\u2011confidence or inconsistent tokens."
   ],
   "log": [
     {
@@ -195,57 +227,57 @@
       "message": "Plan: 3 sub-questions",
       "sub_questions": [
         {
-          "question": "What are the main methods employed to reduce hallucination in large language models?",
-          "search_query": "LLM hallucination reduction methods retrieval grounding"
+          "question": "What are the primary techniques for reducing hallucinations in large language models?",
+          "search_query": "large language model hallucination mitigation techniques"
         },
         {
-          "question": "How can hallucination be quantified and evaluated across different benchmarks?",
-          "search_query": "LLM hallucination evaluation metrics benchmark"
+          "question": "How can the effectiveness of hallucination reduction methods be rigorously evaluated?",
+          "search_query": "hallucination evaluation metrics large language model"
         },
         {
-          "question": "What are the primary limitations and challenges associated with current hallucination mitigation techniques?",
-          "search_query": "LLM hallucination mitigation limitations challenges"
+          "question": "What are the main limitations and open challenges associated with current hallucination reduction approaches?",
+          "search_query": "hallucination reduction limitations open challenges"
         }
       ]
     },
     {
       "step": "check",
-      "message": "[1/3] Checking what we already know: What are the main methods employed to reduce hallucination in large language models?"
+      "message": "[1/3] Checking what we already know: What are the primary techniques for reducing hallucinations in large language models?"
     },
     {
       "step": "coverage",
       "message": "Coverage score 8/10",
       "score": 8,
-      "missing": "Retrieval\u2011augmented generation, reinforcement\u2011learning\u2011based factuality loss, and other post\u2011processing or fine\u2011tuning strategies are not mentioned."
+      "missing": "Clarify and enumerate specific primary techniques such as retrieval/grounding, memory readout scaling, control codes, contrastive learning, and other mitigation strategies."
     },
     {
       "step": "check",
-      "message": "[2/3] Checking what we already know: How can hallucination be quantified and evaluated across different benchmarks?"
+      "message": "[2/3] Checking what we already know: How can the effectiveness of hallucination reduction methods be rigorously evaluated?"
     },
     {
       "step": "coverage",
-      "message": "Coverage score 7/10",
-      "score": 7,
-      "missing": "Details on standardized protocols and methods for aligning metrics across diverse benchmark datasets, and a more systematic comparison framework."
+      "message": "Coverage score 8/10",
+      "score": 8,
+      "missing": "The passages describe various metrics and comparative experiments but do not give a comprehensive, step\u2011by\u2011step guideline on how to design a rigorous evaluation\u2014e.g., choice of benchmark datasets, statistical tests, human validation, cross\u2011model comparisons, or reporting standards for reproducibility."
     },
     {
       "step": "check",
-      "message": "[3/3] Checking what we already know: What are the primary limitations and challenges associated with current hallucination mitigation techniques?"
+      "message": "[3/3] Checking what we already know: What are the main limitations and open challenges associated with current hallucination reduction approaches?"
     },
     {
       "step": "coverage",
-      "message": "Coverage score 5/10",
-      "score": 5,
-      "missing": "The passages mention some challenges in general, but they lack a focused, detailed discussion of the specific limitations of current hallucination mitigation techniques, such as reliance on external data, computational overhead, incomplete coverage of hallucination types, and difficulties in evaluating effectiveness across domains."
+      "message": "Coverage score 6/10",
+      "score": 6,
+      "missing": "Lack of explicit discussion on the specific shortcomings of reduction techniques (e.g., retrieval quality, over-reliance on external knowledge, failure modes of filtering), and no comprehensive list of open research challenges such as scalability, real-time deployment, or cross-domain generalization."
     },
     {
       "step": "compare",
       "message": "Comparing 5 papers...",
       "papers": [
-        "Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention",
-        "HalluScan: A Systematic Benchmark for Detecting and Mitigating Hallucinations in Instruction-Following LLMs",
-        "Detecting AI Hallucinations in Finance: An Information-Theoretic Method Cuts Hallucination Rate by 92%",
         "A Systematic Literature Review of Code Hallucinations in LLMs: Characterization, Mitigation Methods, Challenges, and Future Directions for Reliable AI",
+        "A Stitch in Time Saves Nine: Detecting and Mitigating Hallucinations of LLMs by Validating Low-Confidence Generation",
+        "Mitigating Multimodal Hallucination via Phase-wise Self-reward",
+        "Hallucinations in LLMs: A Lifecycle-Based Survey of Causes, Detection, Mitigation, and Prevention",
         "Hallucination by Code Generation LLMs: Taxonomy, Benchmarks, Mitigation, and Challenges"
       ]
     },
@@ -254,8 +286,12 @@
       "message": "Writing the literature review..."
     },
     {
+      "step": "repair",
+      "message": "Citations were missing, asked the LLM to fix them (1 attempt(s))"
+    },
+    {
       "step": "done",
-      "message": "Done. 9 sources cited."
+      "message": "Done. 12 sources cited."
     }
   ]
 }

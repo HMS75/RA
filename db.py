@@ -7,14 +7,28 @@ load_dotenv()
 
 
 def get_conn():
-    return s2.connect(
-        host=os.environ["S2_HOST"],
-        port=int(os.getenv("S2_PORT", "3306")),
-        user=os.environ["S2_USER"],
-        password=os.environ["S2_PASSWORD"],
-        database=os.environ["S2_DATABASE"],
-    )
+    required = {
+        "S2_HOST": os.getenv("S2_HOST"),
+        "S2_USER": os.getenv("S2_USER"),
+        "S2_PASSWORD": os.getenv("S2_PASSWORD"),
+        "S2_DATABASE": os.getenv("S2_DATABASE"),
+    }
+    missing = [name for name, value in required.items() if not value]
+    if missing:
+        raise RuntimeError(
+            "Database is not configured. Set " + ", ".join(missing) + "."
+        )
 
+    try:
+        return s2.connect(
+            host=required["S2_HOST"],
+            port=int(os.getenv("S2_PORT", "3306")),
+            user=required["S2_USER"],
+            password=required["S2_PASSWORD"],
+            database=required["S2_DATABASE"],
+        )
+    except Exception as exc:
+        raise RuntimeError(f"Database connection failed: {exc}") from exc
 
 # One row per paper
 PAPERS_SQL = """

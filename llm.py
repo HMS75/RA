@@ -7,6 +7,7 @@ from groq import Groq
 
 load_dotenv()
 
+PROVIDER = "groq"
 MODEL = os.getenv("LLM_MODEL", "openai/gpt-oss-20b")
 
 _client = None

@@ -13,14 +13,14 @@ import re
 
 import tools
 from llm_json import ask_json, ask_text
-from rag import extract_citations, find_uncited_sentences
+from rag import extract_citations, find_uncited_sentences, normalize_citations
 
 # ---- settings you can tweak ----
 MAX_SUBQUESTIONS = 3      # how many sub-questions the plan can have
 MAX_ROUNDS = 2            # how many times we try to find new papers per sub-question
 INGEST_PER_ROUND = 4      # max new papers added per attempt
 COVERAGE_OK = 7           # score (0-10) at which we say "we know enough"
-FILTER_MIN_SCORE = 7     # a new paper needs at least this score (0-10) to be added
+FILTER_MIN_SCORE = 7      # a new paper needs at least this score (0-10) to be added
 CHUNKS_PER_QUESTION = 6
 MAX_COMPARE = 5           # how many papers go in the comparison table
 
@@ -130,48 +130,25 @@ Do not add new facts. Keep the same markdown section headings.
 Reply with the full corrected review only."""
 
 
-def normalize_citations(text):
-    """Turn other citation styles into plain [n]: 【3】, [Source 3], (Source 3), [S3]."""
-    text = re.sub(r"【\s*(\d+)[^】]*】", r"[\1]", text)
-    text = re.sub(r"\[\s*(?:sources?|s)\s*(\d+(?:\s*,\s*\d+)*)\s*\]", r"[\1]", text, flags=re.I)
-    text = re.sub(r"\(\s*sources?\s*(\d+(?:\s*,\s*\d+)*)\s*\)", r"[\1]", text, flags=re.I)
-    return text
-
-
 def _factual_sentences(text):
     parts = re.split(r"(?<=[.!?])\s+|\n+", text)
     return [x.strip() for x in parts if len(x.strip()) > 40 and not x.strip().startswith("#")]
 
 
 def ensure_citations(review, sources_text, max_attempts=2):
-    """Repair uncited sentences while keeping prompts smaller.
+    """If too many sentences have no citation, ask the LLM to fix or delete them.
     Returns (review, number_of_repair_attempts)."""
     def uncited_ratio(t):
         sents = _factual_sentences(t)
         return 1.0 if not sents else len(find_uncited_sentences(t)) / len(sents)
+
     best, best_ratio, attempts = review, uncited_ratio(review), 0
-    # Keep the repair prompt smaller to reduce TPM errors.
-    MAX_SOURCE_CHARS = 10000
-    MAX_DRAFT_CHARS = 10000
-    sources_for_repair = sources_text[:MAX_SOURCE_CHARS]
     while best_ratio > 0.25 and attempts < max_attempts:
         attempts += 1
-        draft_for_repair = best[:MAX_DRAFT_CHARS]
-        prompt = (
-            "SOURCES:\n" + sources_for_repair
-            + "\n\nDRAFT:\n" + draft_for_repair
-        )
-        try:
-            fixed = normalize_citations(
-                ask_text(REPAIR_SYSTEM, prompt, max_tokens=2500)
-            )
-        except RuntimeError as e:
-            print(f"[CITATION_REPAIR] Attempt {attempts} failed: {e}")
-            break
-        if not fixed.strip():
-            break
+        fixed = normalize_citations(ask_text(
+            REPAIR_SYSTEM, "SOURCES:\n" + sources_text + "\n\nDRAFT:\n" + best, max_tokens=4000))
         ratio = uncited_ratio(fixed)
-        if ratio < best_ratio and len(fixed) > 0.4 * len(best):
+        if ratio < best_ratio and len(fixed) > 0.4 * len(best):   # don't accept an emptied review
             best, best_ratio = fixed, ratio
     return best, attempts
 

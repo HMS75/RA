@@ -145,16 +145,19 @@ def compare_papers(arxiv_ids):
 
 def database_overview(recent=10):
     """Show how many papers/chunks the database holds and which papers were added last."""
-    conn = get_conn()
-    cur = conn.cursor()
-    cur.execute("SELECT COUNT(*) FROM papers")
-    n_papers = cur.fetchone()[0]
-    cur.execute("SELECT COUNT(*) FROM chunks")
-    n_chunks = cur.fetchone()[0]
-    cur.execute("SELECT title, year, arxiv_id FROM papers ORDER BY id DESC LIMIT %s", (recent,))
-    latest = [{"title": r[0], "year": r[1], "arxiv_id": r[2]} for r in cur.fetchall()]
-    conn.close()
-    return {"papers": n_papers, "chunks": n_chunks, "most_recently_added": latest}
+    try:
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM papers")
+        n_papers = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(*) FROM chunks")
+        n_chunks = cur.fetchone()[0]
+        cur.execute("SELECT title, year, arxiv_id FROM papers ORDER BY id DESC LIMIT %s", (recent,))
+        latest = [{"title": r[0], "year": r[1], "arxiv_id": r[2]} for r in cur.fetchall()]
+        conn.close()
+        return {"papers": n_papers, "chunks": n_chunks, "most_recently_added": latest}
+    except Exception as exc:
+        return {"papers": 0, "chunks": 0, "most_recently_added": [], "status": "unavailable", "error": str(exc)}
 
 
 ALL_TOOLS = [search_arxiv, ingest_papers, search_knowledge_base,

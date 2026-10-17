@@ -1,15 +1,23 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { BookOpenCheck } from "lucide-react";
 import OverviewBadge from "@/components/OverviewBadge";
-import ResultPreview from "@/components/ResultPreview";
+import ReviewHistory from "@/components/ReviewHistory";
+import ReviewView from "@/components/ReviewView";
 import StepFeed from "@/components/StepFeed";
 import TopicForm from "@/components/TopicForm";
 import { useResearch } from "@/hooks/useResearch";
 
 export default function Home() {
-  const { status, steps, result, error, start, cancel } = useResearch();
+  const { status, steps, result, error, start, cancel, loadReview } = useResearch();
   const running = status === "running";
+  const resultRef = useRef<HTMLDivElement>(null);
+
+  // when a review appears, scroll it into view
+  useEffect(() => {
+    if (result) resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [result]);
 
   return (
     <main className="mx-auto max-w-3xl space-y-8 px-4 py-10">
@@ -60,7 +68,11 @@ export default function Home() {
         </p>
       )}
 
-      {result && <ResultPreview result={result} />}
+      <div ref={resultRef} className="scroll-mt-6">
+        {result && <ReviewView key={result.slug ?? result.topic} result={result} />}
+      </div>
+
+      {!running && <ReviewHistory onOpen={loadReview} />}
     </main>
   );
 }

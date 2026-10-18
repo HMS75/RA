@@ -56,3 +56,6 @@ export type Overview = {
 };
 
 export type Health = { status: string; llm_provider: string; llm_model: string; busy: boolean };
+
+/** One row in the "past reviews" list. */
+export type ReviewSummary = { slug: string; topic: string; sources: number; created: number };

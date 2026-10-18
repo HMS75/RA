@@ -1,4 +1,4 @@
-import type { AgentStep, Health, Overview, ResearchResult } from "./types";
+import type { AgentStep, Health, Overview, ResearchResult, ReviewSummary } from "./types";
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -10,6 +10,8 @@ async function getJson<T>(path: string): Promise<T> {
 
 export const getHealth = () => getJson<Health>("/api/health");
 export const getOverview = () => getJson<Overview>("/api/overview");
+export const getReviews = () => getJson<ReviewSummary[]>("/api/reviews");
+export const getReview = (slug: string) => getJson<ResearchResult>(`/api/reviews/${slug}`);
 
 export type ResearchHandlers = {
   onStep: (step: AgentStep) => void;

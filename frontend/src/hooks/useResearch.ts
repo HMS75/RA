@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { API_URL, getHealth, startResearch } from "@/lib/api";
+import { API_URL, getHealth, getReview, startResearch } from "@/lib/api";
 import type { ResearchResult, TimedStep } from "@/lib/types";
 
 export type Status = "idle" | "running" | "done" | "error" | "stopped";
@@ -61,7 +61,24 @@ export function useResearch() {
     setStatus("stopped");
   }, [stop]);
 
+  /** Open a review that was saved earlier (no agent run needed). */
+  const loadReview = useCallback(
+    async (slug: string) => {
+      stop();
+      setSteps([]);
+      setError(null);
+      try {
+        setResult(await getReview(slug));
+        setStatus("done");
+      } catch {
+        setError("Could not load that review.");
+        setStatus("error");
+      }
+    },
+    [stop],
+  );
+
   useEffect(() => stop, [stop]); // stop listening if the page is closed
 
-  return { status, steps, result, error, start, cancel };
+  return { status, steps, result, error, start, cancel, loadReview };
 }

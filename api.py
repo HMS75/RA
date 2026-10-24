@@ -54,7 +54,7 @@ async def lifespan(app):
 
 app = FastAPI(title="Research Paper Agent API", lifespan=lifespan)
 
-origins = [o.strip() for o in os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")]
+origins = [o.strip() for o in os.getenv("ALLOWED_ORIGINS", "https://ra-wine-chi.vercel.app").split(",")]
 app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"])
 
 
